@@ -1,0 +1,20 @@
+<a
+  class="survey-card"
+  [class.survey-card--highlight]="highlight()"
+  [class.survey-card--wide]="wide()"
+  [routerLink]="['/survey', survey().id]"
+>
+  <app-close-icon-button
+    class="survey-card__delete"
+    ariaLabel="Delete survey"
+    [onLight]="!wide()"
+    (clicked)="onDeleteClick($event)"
+  />
+  <div class="survey-card__body">
+    <span class="survey-card__category">{{ survey().category }}</span>
+    <h3 class="survey-card__title">{{ survey().title }}</h3>
+  </div>
+  @if (endsInLabel()) {
+    <span class="survey-card__ends-badge">{{ endsInLabel() }}</span>
+  }
+</a>

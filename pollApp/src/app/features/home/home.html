@@ -1,0 +1,79 @@
+<section class="hero">
+  <div class="hero__text">
+    <h1>Collect Feedback, Unlock Ideas</h1>
+    <p>Create and share surveys in minutes. Post them to your workspace, collect responses, and
+      turn feedback into action.</p>
+    <app-button-primary routerLink="/create-survey">New survey</app-button-primary>
+  </div>
+</section>
+
+@if (error()) {
+  <p class="state-message state-message--error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="state-message">Loading surveys…</p>
+} @else {
+  <h2 class="section-title">Your surveys</h2>
+
+  @if (endingSoonSurveys().length > 0) {
+    <section class="survey-section">
+      <h3 class="subsection-title">Ending soon surveys</h3>
+      <div class="survey-grid survey-grid--3col">
+        @for (survey of endingSoonSurveys(); track survey.id) {
+          <app-survey-card [survey]="survey" [highlight]="true" (deleteRequested)="requestDelete($event)" />
+        }
+      </div>
+    </section>
+  }
+
+  <section class="survey-section">
+    <div class="survey-section__header">
+      <div class="status-tabs">
+        <button
+          type="button"
+          class="status-tabs__tab"
+          [class.is-active]="statusFilter() === 'active'"
+          (click)="statusFilter.set('active')"
+        >
+          Active survey
+        </button>
+        <button
+          type="button"
+          class="status-tabs__tab"
+          [class.is-active]="statusFilter() === 'past'"
+          (click)="statusFilter.set('past')"
+        >
+          Past survey
+        </button>
+      </div>
+      <app-sort-by-select
+        label="Sort by categories"
+        [options]="categoryOptions"
+        [value]="categoryFilter()"
+        (valueChange)="categoryFilter.set($event)"
+      />
+    </div>
+
+    @if (filteredSurveys().length === 0) {
+      <p class="state-message">No surveys here yet.</p>
+    } @else {
+      <div class="survey-grid survey-grid--2col">
+        @for (survey of filteredSurveys(); track survey.id) {
+          <app-survey-card [survey]="survey" [wide]="true" (deleteRequested)="requestDelete($event)" />
+        }
+      </div>
+    }
+  </section>
+}
+
+<app-confirm-dialog
+  [open]="deleteTargetId() !== null"
+  title="Delete survey?"
+  message="This will permanently delete the survey and all its responses."
+  confirmLabel="Delete"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+/>
+
+<app-toast [visible]="showDeletedToast()">Survey deleted</app-toast>
