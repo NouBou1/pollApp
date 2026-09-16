@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Env files
+.env
+.env.local
+
+# Build output
+dist/
+
+# IDEs
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
