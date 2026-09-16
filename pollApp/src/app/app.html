@@ -1,0 +1,13 @@
+<header class="app-header">
+  <a class="app-header__logo" routerLink="/home">PollApp</a>
+  <nav class="app-header__nav">
+    <a routerLink="/home" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }"
+      >Home</a
+    >
+    <a routerLink="/create-survey" routerLinkActive="is-active">Create Survey</a>
+  </nav>
+</header>
+
+<main class="app-main">
+  <router-outlet />
+</main>

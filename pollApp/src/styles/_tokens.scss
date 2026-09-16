@@ -1,0 +1,53 @@
+// Placeholder design tokens approximating the Figma screenshot (dark
+// eggplant background, orange/amber accent). Not extracted from Figma
+// dev-mode — refine once exact hex/font values are available.
+:root {
+  // Backgrounds
+  --color-bg-base: #1a1224;
+  --color-bg-elevated: #241a33;
+  --color-bg-elevated-hover: #2d2140;
+
+  // Cards (light, cream-colored surfaces on the dark page background)
+  --color-card-bg: #f6f1e7;
+  --color-card-bg-hover: #ffffff;
+  --color-card-text: #241a33;
+  --color-card-text-muted: #6f6380;
+
+  // Accent
+  --color-accent: #f5a623;
+  --color-accent-hover: #ffb84d;
+  --color-accent-contrast: #1a1224;
+
+  // Text
+  --color-text-primary: #f5f3f7;
+  --color-text-secondary: #a89bb8;
+  --color-text-muted: #6f6380;
+
+  // Borders / dividers
+  --color-border: #362a48;
+
+  // Status
+  --color-danger: #e0554f;
+  --color-success: #4caf7d;
+
+  // Radii
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  // Spacing scale
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  // Type
+  --font-family-base:
+    'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial,
+    sans-serif;
+}
