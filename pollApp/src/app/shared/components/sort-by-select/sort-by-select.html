@@ -1,0 +1,8 @@
+<label class="sort-by">
+  <span>{{ label() }}</span>
+  <select [value]="value()" (change)="onChange($event)">
+    @for (option of options(); track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+    }
+  </select>
+</label>
