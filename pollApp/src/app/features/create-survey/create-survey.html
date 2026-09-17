@@ -1,0 +1,50 @@
+<h1>Create new survey</h1>
+
+<form class="create-survey-form" [formGroup]="form" (ngSubmit)="submit()">
+  <label class="field">
+    <span>Survey title</span>
+    <input type="text" formControlName="title" placeholder="e.g. Let's plan the next team event" />
+  </label>
+
+  <label class="field">
+    <span>Describing text (optional)</span>
+    <textarea formControlName="description" rows="3" placeholder="What is this survey about?"></textarea>
+  </label>
+
+  <div class="field-row">
+    <label class="field">
+      <span>Set end date (optional)</span>
+      <input type="date" formControlName="endDate" />
+    </label>
+
+    <label class="field">
+      <span>Choose category</span>
+      <select formControlName="category">
+        <option value="" disabled>Select a category</option>
+        @for (category of categories; track category) {
+          <option [value]="category">{{ category }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div class="questions">
+    @for (question of questions.controls; track $index) {
+      <app-question-form-group
+        [question]="question"
+        [index]="$index"
+        (removeQuestion)="removeQuestion($index)"
+      />
+    }
+  </div>
+
+  <app-button-mini (clicked)="addQuestion()">+ Add question</app-button-mini>
+
+  @if (error()) {
+    <p class="form-error">{{ error() }}</p>
+  }
+
+  <app-button-primary type="submit" [disabled]="submitting()">Publish</app-button-primary>
+</form>
+
+<app-toast [visible]="showPublishedToast()">Your survey is now published</app-toast>

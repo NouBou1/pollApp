@@ -1,0 +1,38 @@
+<div class="question-group" [formGroup]="question()">
+  <div class="question-group__header">
+    <span class="question-group__number">{{ index() + 1 }}.</span>
+    <input
+      class="question-group__text"
+      type="text"
+      formControlName="text"
+      placeholder="Question"
+    />
+    <app-close-icon-button ariaLabel="Remove question" (clicked)="removeQuestion.emit()" />
+  </div>
+
+  <app-checkbox
+    class="question-group__allow-multiple"
+    [checked]="allowMultiple.value"
+    (checkedChange)="allowMultiple.setValue($event)"
+  >
+    More than one answers are possible
+  </app-checkbox>
+
+  <div class="question-group__options" formArrayName="options">
+    @for (option of options.controls; track $index) {
+      <div class="option-row" [formGroupName]="$index">
+        <input
+          class="option-row__text"
+          type="text"
+          formControlName="text"
+          [placeholder]="'Answer ' + ($index + 1)"
+        />
+        @if (options.length > 2) {
+          <app-close-icon-button ariaLabel="Remove option" (clicked)="removeOption($index)" />
+        }
+      </div>
+    }
+  </div>
+
+  <app-button-mini (clicked)="addOption()">+ Add answer</app-button-mini>
+</div>
