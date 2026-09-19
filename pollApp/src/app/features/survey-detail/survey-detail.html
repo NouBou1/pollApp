@@ -1,0 +1,57 @@
+@if (loading()) {
+  <p class="state-message">Loading survey…</p>
+} @else if (error() && !survey()) {
+  <p class="state-message state-message--error">{{ error() }}</p>
+} @else if (survey(); as survey) {
+  <div class="survey-detail">
+    <div class="survey-detail__questions">
+      <div class="survey-detail__meta">
+        <span class="status-badge">Published</span>
+        <span class="survey-detail__category">Category: {{ survey.category }}</span>
+      </div>
+      <h1>{{ survey.title }}</h1>
+      @if (survey.description) {
+        <p class="survey-detail__description">{{ survey.description }}</p>
+      }
+
+      @for (question of survey.questions; track question.id; let qIndex = $index) {
+        <div class="question-block">
+          <p class="question-block__text">{{ qIndex + 1 }}. {{ question.text }}</p>
+          @if (question.allowMultiple) {
+            <p class="question-block__hint">More than one answers are possible</p>
+          }
+          <div class="question-block__options">
+            @for (option of question.options; track option.id) {
+              <label class="option-choice" [class.is-selected]="isSelected(question.id, option.id)">
+                <input
+                  [type]="question.allowMultiple ? 'checkbox' : 'radio'"
+                  [name]="question.id"
+                  [checked]="isSelected(question.id, option.id)"
+                  [disabled]="submitted()"
+                  (change)="selectOption(question.id, option.id, question.allowMultiple)"
+                />
+                {{ option.text }}
+              </label>
+            }
+          </div>
+        </div>
+      }
+
+      @if (error()) {
+        <p class="state-message state-message--error">{{ error() }}</p>
+      }
+
+      @if (!submitted()) {
+        <app-button-primary [disabled]="!canSubmit() || submitting()" (clicked)="submit()">
+          Complete survey
+        </app-button-primary>
+      } @else {
+        <p class="state-message">Thanks for completing the survey!</p>
+      }
+    </div>
+
+    <aside class="survey-detail__results">
+      <app-results-panel [survey]="survey" [results]="results()" />
+    </aside>
+  </div>
+}

@@ -10,5 +10,10 @@ export const routes: Routes = [
     path: 'create-survey',
     loadComponent: () => import('./features/create-survey/create-survey').then((m) => m.CreateSurvey),
   },
+  {
+    path: 'survey/:id',
+    loadComponent: () =>
+      import('./features/survey-detail/survey-detail').then((m) => m.SurveyDetail),
+  },
   { path: '**', redirectTo: 'home' },
 ];
