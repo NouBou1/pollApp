@@ -1,22 +1,21 @@
-// Placeholder design tokens approximating the Figma screenshot (dark
-// eggplant background, orange/amber accent). Not extracted from Figma
-// dev-mode — refine once exact hex/font values are available.
+// Design tokens extracted from the Figma dev-mode inspect panel.
 :root {
   // Backgrounds
-  --color-bg-base: #1a1224;
+  --color-bg-base: #35273a;
   --color-bg-elevated: #241a33;
-  --color-bg-elevated-hover: #2d2140;
+  --color-bg-elevated-hover: #d9d9d914;
 
-  // Cards (light, cream-colored surfaces on the dark page background)
-  --color-card-bg: #f6f1e7;
+  // Cards (light, lavender-tinted surfaces on the dark page background)
+  --color-card-bg: #faf5fe;
   --color-card-bg-hover: #ffffff;
-  --color-card-text: #241a33;
+  --color-card-text: #35273a;
   --color-card-text-muted: #6f6380;
 
   // Accent
-  --color-accent: #f5a623;
-  --color-accent-hover: #ffb84d;
-  --color-accent-contrast: #1a1224;
+  --color-accent: #ffb770;
+  --color-accent-secondary: #ffcfa1;
+  --color-accent-hover: #ffcfa1;
+  --color-accent-contrast: #35273a;
 
   // Text
   --color-text-primary: #f5f3f7;
@@ -35,6 +34,7 @@
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-pill: 999px;
+  --radius-card-corner: 80px;
 
   // Spacing scale
   --space-1: 4px;
@@ -47,7 +47,6 @@
   --space-8: 64px;
 
   // Type
-  --font-family-base:
-    'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial,
-    sans-serif;
+  --font-family-base: 'Mulish', 'Nokora', system-ui, -apple-system, sans-serif;
+  --font-family-heading: 'Nerko One', 'Mulish', cursive, sans-serif;
 }

@@ -6,7 +6,7 @@
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   min-height: 130px;
-  border-radius: 0 var(--radius-lg) 0 0;
+  border-radius: 0 var(--radius-card-corner) 0 0;
   background: var(--color-card-bg);
   text-decoration: none;
   color: var(--color-card-text);
@@ -18,7 +18,26 @@
   }
 
   &--highlight {
-    outline: 2px solid var(--color-accent);
+    width: 100%;
+    max-width: 321px;
+    min-height: 310px;
+    padding: 40px 18px;
+    gap: 10px;
+
+    .survey-card__category {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .survey-card__title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .survey-card__ends-badge {
+      font-size: 0.8rem;
+    }
   }
 
   &__delete {
@@ -57,9 +76,6 @@
   }
 
   &--wide {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
     align-self: start;
     min-height: 0;
     padding: var(--space-3) var(--space-2);
@@ -72,13 +88,12 @@
       background: var(--color-bg-elevated-hover);
     }
 
-    .survey-card__category {
-      color: var(--color-accent);
+    .survey-card__body {
+      padding-right: var(--space-4);
     }
 
-    .survey-card__ends-badge {
-      align-self: center;
-      flex-shrink: 0;
+    .survey-card__category {
+      color: var(--color-accent);
     }
   }
 }

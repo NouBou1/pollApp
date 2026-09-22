@@ -12,17 +12,18 @@
   }
 
   &__box {
-    width: 18px;
-    height: 18px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-elevated);
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
+    background: url('/assets/checkbox-unchecked.png') center / contain no-repeat;
+  }
+
+  &:hover input:not(:checked) + &__box {
+    background-image: url('/assets/checkbox-hover.svg');
   }
 
   input:checked + &__box {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    background-image: url('/assets/checkbox-checked.svg');
   }
 
   input:focus-visible + &__box {
