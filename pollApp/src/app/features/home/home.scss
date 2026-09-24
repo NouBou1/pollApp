@@ -5,14 +5,14 @@
   gap: var(--space-6);
   padding: var(--space-8) var(--space-6);
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--color-bg-elevated), var(--color-bg-base));
+  // background: linear-gradient(135deg, var(--color-bg-elevated), var(--color-bg-base));
   border: 1px solid var(--color-border);
   margin-bottom: var(--space-7);
 
   &__illustration {
     flex-shrink: 0;
-    width: 220px;
-    height: 220px;
+    width: 420px;
+    height: 420px;
 
     @media (max-width: 900px) {
       display: none;
@@ -20,30 +20,43 @@
   }
 
   &__text {
-    max-width: 520px;
+    max-width: 702px;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 100px;
       font-weight: 400;
       line-height: 1.1;
       color: var(--color-accent);
     }
 
     p {
-      color: var(--color-text-secondary);
+      color: var(--color-text-primary);
+      font-size: 24px;
+      line-height: 1.5;
+      font-weight: 600;
+      margin-top: var(--space-2);
+      margin-bottom: var(--space-4);
+      max-width: 670px;
     }
   }
 }
 
+.surveys-container {
+  max-width: 1042px;
+  margin: 0 auto;
+}
+
 .section-title {
   font-family: var(--font-family-heading);
-  font-size: 1.75rem;
+  font-size: 72px;
   font-weight: 400;
   color: var(--color-accent);
   margin-bottom: var(--space-5);
+  justify-content: center;
+  display: flex;
 }
 
 .survey-section {
@@ -60,10 +73,10 @@
 }
 
 .subsection-title {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 500;
   color: var(--color-text-primary);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-7);
 }
 
 .status-tabs {
@@ -72,18 +85,20 @@
 
   &__tab {
     padding: var(--space-2) var(--space-5);
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-text-primary);
     border-radius: var(--radius-pill);
-    background: transparent;
-    color: var(--color-accent);
+    background: var(--color-accent-secondary);
+    color: var(--color-accent-contrast);
     font-weight: 600;
     font-size: 0.85rem;
     cursor: pointer;
     transition:
       background 0.15s ease,
-      color 0.15s ease;
+      color 0.15s ease,
+      border-color 0.15s ease;
 
     &.is-active {
+      border-color: var(--color-accent);
       background: var(--color-accent);
       color: var(--color-accent-contrast);
     }

@@ -1,6 +1,5 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CloseIconButton } from '../close-icon-button/close-icon-button';
 import { SurveyListItem } from '../../../core/models/survey.model';
 
 function formatEndsIn(endsAt: string | null): string | null {
@@ -13,7 +12,7 @@ function formatEndsIn(endsAt: string | null): string | null {
 
 @Component({
   selector: 'app-survey-card',
-  imports: [RouterLink, CloseIconButton],
+  imports: [RouterLink],
   templateUrl: './survey-card.html',
   styleUrl: './survey-card.scss',
 })
@@ -21,13 +20,6 @@ export class SurveyCard {
   survey = input.required<SurveyListItem>();
   highlight = input(false);
   wide = input(false);
-  deleteRequested = output<string>();
 
   readonly endsInLabel = computed(() => formatEndsIn(this.survey().endsAt));
-
-  onDeleteClick(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.deleteRequested.emit(this.survey().id);
-  }
 }

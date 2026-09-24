@@ -3,8 +3,6 @@ import { RouterLink } from '@angular/router';
 import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
 import { SortBySelect, SortOption } from '../../shared/components/sort-by-select/sort-by-select';
 import { SurveyCard } from '../../shared/components/survey-card/survey-card';
-import { ConfirmDialog } from '../../shared/overlays/confirm-dialog/confirm-dialog';
-import { Toast } from '../../shared/components/toast/toast';
 import { SurveyService } from '../../core/services/survey.service';
 import { SURVEY_CATEGORIES, SurveyListItem } from '../../core/models/survey.model';
 
@@ -15,7 +13,7 @@ const CATEGORY_OPTIONS: SortOption[] = [
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ButtonPrimary, SortBySelect, SurveyCard, ConfirmDialog, Toast],
+  imports: [RouterLink, ButtonPrimary, SortBySelect, SurveyCard],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -28,8 +26,6 @@ export class Home {
   readonly surveys = signal<SurveyListItem[]>([]);
   readonly categoryFilter = signal('all');
   readonly statusFilter = signal<'active' | 'past'>('active');
-  readonly deleteTargetId = signal<string | null>(null);
-  readonly showDeletedToast = signal(false);
 
   private isPast(survey: SurveyListItem): boolean {
     return !!survey.endsAt && new Date(survey.endsAt).getTime() <= Date.now();
@@ -66,31 +62,6 @@ export class Home {
       error: () => {
         this.error.set('Could not load surveys. Is the backend running?');
         this.loading.set(false);
-      },
-    });
-  }
-
-  requestDelete(id: string) {
-    this.deleteTargetId.set(id);
-  }
-
-  cancelDelete() {
-    this.deleteTargetId.set(null);
-  }
-
-  confirmDelete() {
-    const id = this.deleteTargetId();
-    if (!id) return;
-    this.surveyService.deleteSurvey(id).subscribe({
-      next: () => {
-        this.surveys.set(this.surveys().filter((survey) => survey.id !== id));
-        this.deleteTargetId.set(null);
-        this.showDeletedToast.set(true);
-        setTimeout(() => this.showDeletedToast.set(false), 2500);
-      },
-      error: () => {
-        this.error.set('Could not delete the survey.');
-        this.deleteTargetId.set(null);
       },
     });
   }
