@@ -15,14 +15,18 @@
     width: 15px;
     height: 15px;
     flex-shrink: 0;
-    background: url('/assets/checkbox-unchecked.png') center / contain no-repeat;
+    border: 1.5px solid var(--color-card-bg);
+    border-radius: 3px;
+    background: center / contain no-repeat;
   }
 
   &:hover input:not(:checked) + &__box {
+    border: none;
     background-image: url('/assets/checkbox-hover.svg');
   }
 
   input:checked + &__box {
+    border: none;
     background-image: url('/assets/checkbox-checked.svg');
   }
 

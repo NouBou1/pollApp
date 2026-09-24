@@ -1,22 +1,24 @@
 .close-icon-button {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: none;
-  border-radius: 50%;
+  border-radius: 3px;
   background: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition:
     color 0.15s ease,
     background 0.15s ease;
 
+  // Figma "icon delete / hover": white tile under #FFB770 at 60%.
   &:hover {
-    color: var(--color-danger);
-    background: var(--color-bg-elevated-hover);
+    color: var(--color-accent-contrast);
+    background: #ffd4a9;
   }
 
   &--on-light {
