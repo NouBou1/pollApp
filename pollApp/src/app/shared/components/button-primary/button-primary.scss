@@ -2,11 +2,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
   padding: var(--space-3) var(--space-5);
   border: none;
-  border-radius: var(--radius-pill);
-  background: var(--color-accent);
+  border-radius: 10px;
+  background: var(--color-accent-secondary);
   color: var(--color-accent-contrast);
   font-weight: 600;
   font-size: 0.95rem;
@@ -20,5 +19,25 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  &__plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    margin-left: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      width 0.2s ease,
+      margin-left 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  &:hover:not(:disabled) &__plus {
+    width: 12px;
+    margin-left: var(--space-2);
+    opacity: 1;
   }
 }
