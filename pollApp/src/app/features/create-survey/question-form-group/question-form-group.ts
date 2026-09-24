@@ -1,6 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { FormGroup, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ButtonMini } from '../../../shared/components/button-mini/button-mini';
+import { Component, computed, input, output } from '@angular/core';
+import { FormGroup, FormArray, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CloseIconButton } from '../../../shared/components/close-icon-button/close-icon-button';
 import { Checkbox } from '../../../shared/components/checkbox/checkbox';
 
@@ -11,9 +10,20 @@ export type QuestionForm = FormGroup<{
   options: FormArray<OptionForm>;
 }>;
 
+const QUESTION_PLACEHOLDERS = [
+  'Which date would work best for you?',
+  'Choose the activities you prefer?',
+];
+
+export function buildOption(): OptionForm {
+  return new FormGroup({
+    text: new FormControl('', { nonNullable: true, validators: Validators.required }),
+  });
+}
+
 @Component({
   selector: 'app-question-form-group',
-  imports: [ReactiveFormsModule, ButtonMini, CloseIconButton, Checkbox],
+  imports: [ReactiveFormsModule, CloseIconButton, Checkbox],
   templateUrl: './question-form-group.html',
   styleUrl: './question-form-group.scss',
 })
@@ -30,12 +40,25 @@ export class QuestionFormGroup {
     return this.question().controls.allowMultiple;
   }
 
-  addOption() {
-    this.options.push(new FormGroup({ text: new FormControl('', { nonNullable: true }) }));
+  // Example questions from the Figma design, repeated for further questions.
+  readonly placeholder = computed(
+    () => QUESTION_PLACEHOLDERS[this.index() % QUESTION_PLACEHOLDERS.length],
+  );
+
+  letter(index: number): string {
+    return String.fromCharCode(65 + index);
   }
 
+  addOption() {
+    this.options.push(buildOption());
+  }
+
+  // A question needs at least two answers, so below that the trash icon just clears the text.
   removeOption(index: number) {
-    if (this.options.length <= 2) return;
+    if (this.options.length <= 2) {
+      this.options.at(index).reset();
+      return;
+    }
     this.options.removeAt(index);
   }
 }

@@ -1,18 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ButtonMini } from '../../shared/components/button-mini/button-mini';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
+import { CloseIconButton } from '../../shared/components/close-icon-button/close-icon-button';
+import { SortBySelect, SortOption } from '../../shared/components/sort-by-select/sort-by-select';
 import { Toast } from '../../shared/components/toast/toast';
 import { SurveyService } from '../../core/services/survey.service';
 import { CreateSurveyPayload, SURVEY_CATEGORIES } from '../../core/models/survey.model';
-import { OptionForm, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
-
-function buildOption(): OptionForm {
-  return new FormGroup({
-    text: new FormControl('', { nonNullable: true, validators: Validators.required }),
-  });
-}
+import { buildOption, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
 
 function buildQuestion(): QuestionForm {
   return new FormGroup({
@@ -28,7 +23,15 @@ function endOfDayIso(dateOnly: string): string {
 
 @Component({
   selector: 'app-create-survey',
-  imports: [ReactiveFormsModule, ButtonMini, ButtonPrimary, Toast, QuestionFormGroup],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    ButtonPrimary,
+    CloseIconButton,
+    SortBySelect,
+    Toast,
+    QuestionFormGroup,
+  ],
   templateUrl: './create-survey.html',
   styleUrl: './create-survey.scss',
 })
@@ -36,7 +39,10 @@ export class CreateSurvey {
   private readonly surveyService = inject(SurveyService);
   private readonly router = inject(Router);
 
-  readonly categories = SURVEY_CATEGORIES;
+  readonly categoryOptions: SortOption[] = SURVEY_CATEGORIES.map((category) => ({
+    value: category,
+    label: category,
+  }));
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
   readonly showPublishedToast = signal(false);
@@ -53,6 +59,10 @@ export class CreateSurvey {
     return this.form.controls.questions;
   }
 
+  clear(control: 'title' | 'description' | 'endDate') {
+    this.form.controls[control].reset();
+  }
+
   addQuestion() {
     this.questions.push(buildQuestion());
   }
@@ -65,6 +75,7 @@ export class CreateSurvey {
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.error.set('Please fill in the survey name, a category and all questions and answers.');
       return;
     }
 

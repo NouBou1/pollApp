@@ -1,50 +1,97 @@
-<h1>Create new survey</h1>
+<section class="create-survey">
+  <header class="create-survey__header">
+    <img class="create-survey__status" src="/assets/status-draft.svg" alt="Draft" />
+    <div class="create-survey__title-row">
+      <h1 class="create-survey__title">Create new survey</h1>
+      <button type="button" class="soft-button" routerLink="/home">
+        Cancel
+        <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </header>
 
-<form class="create-survey-form" [formGroup]="form" (ngSubmit)="submit()">
-  <label class="field">
-    <span>Survey title</span>
-    <input type="text" formControlName="title" placeholder="e.g. Let's plan the next team event" />
-  </label>
+  <form class="create-survey__form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="create-survey__body">
+      <div class="create-survey__column">
+        <div class="field">
+          <label class="field__label" for="survey-title">Survey name</label>
+          <div class="field__control">
+            <input id="survey-title" class="field__input" type="text" formControlName="title" />
+            <app-close-icon-button ariaLabel="Clear survey name" (clicked)="clear('title')" />
+          </div>
+        </div>
 
-  <label class="field">
-    <span>Describing text (optional)</span>
-    <textarea formControlName="description" rows="3" placeholder="What is this survey about?"></textarea>
-  </label>
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="survey-end-date">
+              Set end date <span class="field__optional">(optional)</span>
+            </label>
+            <div class="field__control">
+              <input
+                id="survey-end-date"
+                class="field__input field__input--date"
+                type="date"
+                formControlName="endDate"
+              />
+              <app-close-icon-button ariaLabel="Clear end date" (clicked)="clear('endDate')" />
+            </div>
+          </div>
 
-  <div class="field-row">
-    <label class="field">
-      <span>Set end date (optional)</span>
-      <input type="date" formControlName="endDate" />
-    </label>
+          <app-sort-by-select
+            class="field-row__category"
+            [label]="form.controls.category.value || 'Choose category'"
+            [options]="categoryOptions"
+            [value]="form.controls.category.value"
+            (valueChange)="form.controls.category.setValue($event)"
+          />
+        </div>
+      </div>
 
-    <label class="field">
-      <span>Choose category</span>
-      <select formControlName="category">
-        <option value="" disabled>Select a category</option>
-        @for (category of categories; track category) {
-          <option [value]="category">{{ category }}</option>
-        }
-      </select>
-    </label>
-  </div>
+      <div class="create-survey__column">
+        <div class="field">
+          <label class="field__label" for="survey-description">
+            Describing text <span class="field__optional">(optional)</span>
+          </label>
+          <div class="field__control field__control--top">
+            <textarea
+              id="survey-description"
+              class="field__input field__input--textarea"
+              formControlName="description"
+            ></textarea>
+            <app-close-icon-button ariaLabel="Clear describing text" (clicked)="clear('description')" />
+          </div>
+        </div>
+      </div>
 
-  <div class="questions">
-    @for (question of questions.controls; track $index) {
-      <app-question-form-group
-        [question]="question"
-        [index]="$index"
-        (removeQuestion)="removeQuestion($index)"
-      />
-    }
-  </div>
+      <!-- Questions fill the two-column grid in order; "Add next question" takes the next free cell. -->
+      @for (question of questions.controls; track question) {
+        <app-question-form-group
+          [question]="question"
+          [index]="$index"
+          (removeQuestion)="removeQuestion($index)"
+        />
+      }
 
-  <app-button-mini (clicked)="addQuestion()">+ Add question</app-button-mini>
+      <div class="create-survey__column">
+        <button type="button" class="soft-button" (click)="addQuestion()">
+          Add next question
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M8 4.5v7M4.5 8h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
 
-  @if (error()) {
-    <p class="form-error">{{ error() }}</p>
-  }
-
-  <app-button-primary type="submit" [disabled]="submitting()">Publish</app-button-primary>
-</form>
+    <div class="create-survey__footer">
+      @if (error()) {
+        <p class="create-survey__error">{{ error() }}</p>
+      }
+      <app-button-primary type="submit" [disabled]="submitting()">Publish</app-button-primary>
+    </div>
+  </form>
+</section>
 
 <app-toast [visible]="showPublishedToast()">Your survey is now published</app-toast>

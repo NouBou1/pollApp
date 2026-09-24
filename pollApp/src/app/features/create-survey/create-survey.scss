@@ -1,66 +1,144 @@
-h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: var(--space-5);
-}
+@use '../../../styles/form-controls' as fc;
 
-.create-survey-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  max-width: 640px;
+.create-survey {
+  max-width: 1173px;
+  margin: 0 auto;
+  padding: 40px 60px;
+  border-radius: 0 var(--radius-card-corner) 0 0;
+  background: var(--color-bg-base);
+
+  @media (max-width: 720px) {
+    padding: var(--space-5) var(--space-4);
+    border-top-right-radius: var(--space-7);
+  }
+
+  &__status {
+    display: block;
+    width: 59px;
+    height: 26px;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+
+  &__title {
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-accent);
+
+    @media (max-width: 720px) {
+      font-size: 40px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 75px;
+    row-gap: var(--space-7);
+    margin-top: var(--space-6);
+    padding: 40px 24px;
+    border-radius: 0 60px 0 0;
+    background: rgba(250, 245, 254, 0.05);
+
+    // Survey name/date and describing text sit a bit further from the questions (64px vs 48px).
+    > :nth-child(-n + 2) {
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-6);
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-width: 0;
+
+    > .field {
+      align-self: stretch;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  &__error {
+    color: var(--color-danger);
+    font-size: 0.9rem;
+  }
 }
 
 .field {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  
 
-  span {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    font-weight: 600;
+  &__label {
+    @include fc.field-label;
   }
 
-  input,
-  select,
-  textarea {
-    padding: var(--space-3);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-elevated);
-    color: var(--color-text-primary);
-    font-size: 1rem;
-    font-family: inherit;
+  &__optional {
+    font-weight: 400;
+  }
 
-    &:focus {
-      outline: none;
-      border-color: var(--color-accent);
+  &__control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &--top {
+      align-items: flex-start;
     }
   }
 
-  textarea {
-    resize: vertical;
+  &__input {
+    @include fc.field-input;
+    flex: 1;
+    min-width: 0;
+
+    &--date {
+      flex: 0 0 220px;
+    }
+
+    &--textarea {
+      height: 108px;
+      padding: 10px 14px;
+      resize: none;
+    }
   }
 }
 
 .field-row {
   display: flex;
-  gap: var(--space-4);
+  align-items: flex-start;
+  justify-content: space-between;
   flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-self: stretch;
 
-  .field {
-    flex: 1;
-    min-width: 160px;
+  &__category {
+    margin-top: 2px;
   }
 }
 
-.questions {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-error {
-  color: var(--color-danger);
-  font-size: 0.9rem;
+.soft-button {
+  @include fc.soft-button;
 }

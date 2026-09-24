@@ -1,38 +1,45 @@
 <div class="question-group" [formGroup]="question()">
   <div class="question-group__header">
-    <span class="question-group__number">{{ index() + 1 }}.</span>
-    <input
-      class="question-group__text"
-      type="text"
-      formControlName="text"
-      placeholder="Question"
-    />
+    <label class="question-group__label" [for]="'question-' + index()">
+      {{ index() + 1 }}. Question
+    </label>
     <app-close-icon-button ariaLabel="Remove question" (clicked)="removeQuestion.emit()" />
   </div>
+  <input
+    class="question-group__text"
+    [id]="'question-' + index()"
+    type="text"
+    formControlName="text"
+    [placeholder]="placeholder()"
+  />
 
-  <app-checkbox
-    class="question-group__allow-multiple"
-    [checked]="allowMultiple.value"
-    (checkedChange)="allowMultiple.setValue($event)"
-  >
-    More than one answers are possible
-  </app-checkbox>
+  <div class="question-group__answers-header">
+    <span class="question-group__label">Answers</span>
+    <app-checkbox [checked]="allowMultiple.value" (checkedChange)="allowMultiple.setValue($event)">
+      <span class="question-group__allow-multiple">Allow multiple answers.</span>
+    </app-checkbox>
+  </div>
 
   <div class="question-group__options" formArrayName="options">
-    @for (option of options.controls; track $index) {
+    @for (option of options.controls; track option) {
       <div class="option-row" [formGroupName]="$index">
+        <span class="option-row__letter">{{ letter($index) }}.</span>
         <input
           class="option-row__text"
           type="text"
           formControlName="text"
-          [placeholder]="'Answer ' + ($index + 1)"
+          [attr.aria-label]="'Answer ' + letter($index)"
         />
-        @if (options.length > 2) {
-          <app-close-icon-button ariaLabel="Remove option" (clicked)="removeOption($index)" />
-        }
+        <app-close-icon-button ariaLabel="Remove answer" (clicked)="removeOption($index)" />
       </div>
     }
   </div>
 
-  <app-button-mini (clicked)="addOption()">+ Add answer</app-button-mini>
+  <button type="button" class="question-group__add-answer" (click)="addOption()">
+    Add answer
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <path d="M8 4.5v7M4.5 8h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
 </div>
