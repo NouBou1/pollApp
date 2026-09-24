@@ -16,10 +16,10 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render the nav logo', async () => {
+  it('should render the header logo', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.app-header__logo')?.textContent).toContain('PollApp');
+    expect(compiled.querySelector('.app-header__logo-icon')).toBeTruthy();
   });
 });
