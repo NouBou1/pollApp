@@ -12,6 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'survey/:id',
+    data: { theme: 'light' },
     loadComponent: () =>
       import('./features/survey-detail/survey-detail').then((m) => m.SurveyDetail),
   },

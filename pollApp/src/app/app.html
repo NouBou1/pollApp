@@ -1,7 +1,14 @@
 <header class="app-header">
   <a class="app-header__logo" routerLink="/home">
-    <img class="app-header__logo-icon" src="/assets/logo.svg" alt="PollApp" />
+    <img
+      class="app-header__logo-icon"
+      [src]="isLight() ? '/assets/logo-dark.svg' : '/assets/logo.svg'"
+      alt="PollApp"
+    />
   </a>
+  @if (isLight()) {
+    <app-button-primary routerLink="/create-survey">Create survey</app-button-primary>
+  }
 </header>
 
 <main class="app-main">

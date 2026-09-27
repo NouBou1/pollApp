@@ -30,3 +30,39 @@
     padding: var(--space-4);
   }
 }
+
+// Light page design (single survey view): 1218px content column, logo + CTA row on top.
+:host(.app--light) {
+  display: block;
+  min-height: 100vh;
+  background: var(--color-page-light-bg);
+
+  .app-header {
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 48px;
+    box-sizing: content-box;
+    max-width: 1218px;
+    margin: 0 auto;
+    padding: 39px 0 0;
+    border-bottom: none;
+
+    @media (max-width: 1250px) {
+      padding: var(--space-5) var(--space-4) 0;
+    }
+  }
+
+  .app-header__logo-icon {
+    height: 50px;
+    margin: 0;
+  }
+
+  .app-main {
+    max-width: 1218px;
+    padding: 40px 0 42px;
+
+    @media (max-width: 1250px) {
+      padding: var(--space-6) var(--space-4);
+    }
+  }
+}
