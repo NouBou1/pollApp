@@ -1,25 +1,20 @@
 <div class="sort-by">
   <button type="button" class="sort-by__trigger" [class.is-open]="open()" (click)="toggle()">
     <span>{{ label() }}</span>
-    <svg class="sort-by__arrow" viewBox="0 0 16 10" width="12" height="8">
-      <path d="M0 0h16L8 10z" fill="currentColor" />
-    </svg>
+    <app-icon class="sort-by__arrow" name="arrow-drop-down" />
   </button>
 
   @if (open()) {
     <ul class="sort-by__menu">
       @for (option of options(); track option.value) {
         <li>
-          <button
-            type="button"
-            class="sort-by__option"
-            [class.is-selected]="option.value === value()"
-            (click)="select(option.value)"
-          >
+          <button type="button" class="sort-by__option" (click)="select(option.value)">
             {{ option.label }}
           </button>
         </li>
       }
     </ul>
+  } @else if (showChosen() && chosenLabel()) {
+    <p class="sort-by__chosen">{{ chosenLabel() }}</p>
   }
 </div>

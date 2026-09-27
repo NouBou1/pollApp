@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, computed, inject, input, output, signal } from '@angular/core';
+import { Icon } from '../icon/icon';
 
 export interface SortOption {
   value: string;
@@ -7,6 +8,7 @@ export interface SortOption {
 
 @Component({
   selector: 'app-sort-by-select',
+  imports: [Icon],
   templateUrl: './sort-by-select.html',
   styleUrl: './sort-by-select.scss',
 })
@@ -16,9 +18,14 @@ export class SortBySelect {
   options = input.required<SortOption[]>();
   value = input<string>('');
   label = input('Sort by');
+  /** Shows the chosen option below the closed dropdown. */
+  showChosen = input(false);
   valueChange = output<string>();
 
   readonly open = signal(false);
+  readonly chosenLabel = computed(
+    () => this.options().find((option) => option.value === this.value())?.label ?? null,
+  );
 
   toggle() {
     this.open.update((isOpen) => !isOpen);

@@ -3,64 +3,77 @@
   display: inline-block;
   color: var(--color-text-primary);
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
+  line-height: 22.6px;
 
   &__trigger {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: 0;
+    gap: 4px;
+    padding: 4px 6px 4px var(--sort-by-pad-left, 10px);
     border: none;
+    border-radius: 6px;
     background: transparent;
     color: var(--color-text-primary);
     font: inherit;
     cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover,
+    &.is-open {
+      background: rgba(217, 217, 217, 0.12);
+    }
   }
 
   &__arrow {
-    flex-shrink: 0;
-    color: var(--color-text-primary);
-    transition: transform 0.15s ease;
-  }
-
-  &__trigger.is-open &__arrow {
-    transform: rotate(180deg);
+    width: 24px;
+    height: 24px;
   }
 
   &__menu {
     position: absolute;
-    top: calc(100% + var(--space-2));
-    right: 0;
+    top: calc(100% + 4px);
+    left: 0;
     z-index: 20;
-    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 100%;
     margin: 0;
-    padding: var(--space-2) 0;
+    padding: 8px 4px;
     list-style: none;
-    border-radius: var(--radius-md);
-    background: var(--color-card-bg);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    background: #ffffff;
   }
 
   &__option {
-    display: block;
-    width: 100%;
-    padding: var(--space-2) var(--space-4);
+    padding: 4px;
     border: none;
+    border-radius: 6px;
     background: transparent;
     color: var(--color-card-text);
-    font: inherit;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17.6px;
+    letter-spacing: 0.28px;
     text-align: left;
+    white-space: nowrap;
     cursor: pointer;
 
     &:hover {
-      background: var(--color-bg-elevated-hover);
+      background: #f4e9fb;
     }
+  }
 
-    &.is-selected {
-      color: var(--color-accent-secondary);
-    }
+  &__chosen {
+    margin-top: 4px;
+    padding: 4px 4px 4px 10px;
+    color: var(--color-accent);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17.6px;
+    letter-spacing: 0.28px;
   }
 }
