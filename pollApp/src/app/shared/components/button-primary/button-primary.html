@@ -1,5 +1,6 @@
 <button
   class="btn-primary"
+  [class.btn-primary--mobile-icon]="mobileIcon()"
   [type]="type()"
   [disabled]="disabled()"
   (click)="clicked.emit()"

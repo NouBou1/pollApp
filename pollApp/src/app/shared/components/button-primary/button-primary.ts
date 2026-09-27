@@ -8,5 +8,7 @@ import { Component, input, output } from '@angular/core';
 export class ButtonPrimary {
   type = input<'button' | 'submit'>('button');
   disabled = input(false);
+  /** Shows the plus icon permanently on mobile. */
+  mobileIcon = input(false);
   clicked = output<void>();
 }

@@ -43,4 +43,16 @@
     margin-left: var(--space-2);
     opacity: 1;
   }
+
+  @media (max-width: 720px) {
+    &--mobile-icon {
+      background: var(--color-accent);
+    }
+
+    &--mobile-icon &__plus {
+      width: 12px;
+      margin-left: var(--space-2);
+      opacity: 1;
+    }
+  }
 }
