@@ -4,54 +4,83 @@
   <p class="state-message state-message--error">{{ error() }}</p>
 } @else if (survey(); as survey) {
   <div class="survey-detail">
-    <div class="survey-detail__questions">
-      <div class="survey-detail__meta">
-        <span class="status-badge">Published</span>
-        <span class="survey-detail__category">Category: {{ survey.category }}</span>
-      </div>
-      <h1>{{ survey.title }}</h1>
-      @if (survey.description) {
-        <p class="survey-detail__description">{{ survey.description }}</p>
-      }
+    <section class="survey-panel">
+      <span class="status-badge">Published</span>
 
-      @for (question of survey.questions; track question.id; let qIndex = $index) {
-        <div class="question-block">
-          <p class="question-block__text">{{ qIndex + 1 }}. {{ question.text }}</p>
-          @if (question.allowMultiple) {
-            <p class="question-block__hint">More than one answers are possible</p>
-          }
-          <div class="question-block__options">
-            @for (option of question.options; track option.id) {
-              <label class="option-choice" [class.is-selected]="isSelected(question.id, option.id)">
-                <input
-                  [type]="question.allowMultiple ? 'checkbox' : 'radio'"
-                  [name]="question.id"
-                  [checked]="isSelected(question.id, option.id)"
-                  [disabled]="submitted()"
-                  (change)="selectOption(question.id, option.id, question.allowMultiple)"
-                />
-                {{ option.text }}
-              </label>
+      <div class="survey-panel__content">
+        <div class="survey-panel__intro">
+          <div class="survey-panel__meta">
+            @if (survey.endsAt) {
+              <span>Ends on {{ survey.endsAt | date: 'dd.MM.yyyy' }}</span>
             }
+            <span class="survey-panel__category">Category: {{ survey.category }}</span>
           </div>
+          <h1 class="survey-panel__title">{{ survey.title }}</h1>
+          @if (survey.description) {
+            <p class="survey-panel__description">{{ survey.description }}</p>
+          }
         </div>
-      }
 
-      @if (error()) {
-        <p class="state-message state-message--error">{{ error() }}</p>
-      }
+        <div class="survey-panel__questions">
+          @for (question of survey.questions; track question.id; let qIndex = $index) {
+            <div class="question">
+              <div class="question__header">
+                <p class="question__text">
+                  <span class="question__number">{{ qIndex + 1 }}.</span>
+                  <span>{{ question.text }}</span>
+                </p>
+                @if (question.allowMultiple) {
+                  <p class="question__hint">More than one answers are possible.</p>
+                }
+              </div>
 
-      @if (!submitted()) {
-        <app-button-primary [disabled]="!canSubmit() || submitting()" (clicked)="submit()">
-          Complete survey
-        </app-button-primary>
-      } @else {
-        <p class="state-message">Thanks for completing the survey!</p>
-      }
-    </div>
+              <div class="question__answers">
+                @for (option of question.options; track option.id; let oIndex = $index) {
+                  <label class="answer">
+                    <input
+                      [type]="question.allowMultiple ? 'checkbox' : 'radio'"
+                      [name]="question.id"
+                      [checked]="isSelected(question.id, option.id)"
+                      [disabled]="submitted()"
+                      (change)="selectOption(question.id, option.id, question.allowMultiple)"
+                    />
+                    <span class="answer__box"></span>
+                    <span class="answer__label">
+                      <span class="answer__letter">{{ letter(oIndex) }}.</span>
+                      <span>{{ option.text }}</span>
+                    </span>
+                  </label>
+                }
+              </div>
+            </div>
+          }
+        </div>
 
-    <aside class="survey-detail__results">
-      <app-results-panel [survey]="survey" [results]="results()" />
-    </aside>
+        <div class="survey-panel__footer">
+          @if (error()) {
+            <p class="state-message state-message--error">{{ error() }}</p>
+          }
+          @if (!submitted()) {
+            <button
+              type="button"
+              class="complete-button"
+              [disabled]="!canSubmit() || submitting()"
+              (click)="submit()"
+            >
+              Complete survey
+            </button>
+          } @else {
+            <p class="survey-panel__thanks">Thanks for completing the survey!</p>
+          }
+        </div>
+      </div>
+    </section>
+
+    <app-results-panel
+      class="survey-detail__results"
+      [class.survey-detail__results--empty]="!hasResponses()"
+      [survey]="survey"
+      [results]="results()"
+    />
   </div>
 }

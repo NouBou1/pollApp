@@ -1,13 +1,17 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
+import { DatePipe } from '@angular/common';
 import { SurveyService } from '../../core/services/survey.service';
-import { SurveyDetail as SurveyDetailModel, SurveyResults } from '../../core/models/survey.model';
+import {
+  SurveyDetail as SurveyDetailModel,
+  SurveyResults,
+  optionLetter,
+} from '../../core/models/survey.model';
 import { ResultsPanel } from './results-panel/results-panel';
 
 @Component({
   selector: 'app-survey-detail',
-  imports: [ButtonPrimary, ResultsPanel],
+  imports: [DatePipe, ResultsPanel],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
@@ -22,6 +26,9 @@ export class SurveyDetail {
   readonly selectedAnswers = signal<Record<string, string[]>>({});
   readonly submitting = signal(false);
   readonly submitted = signal(false);
+  readonly letter = optionLetter;
+
+  readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
 
   readonly canSubmit = computed(() => {
     const survey = this.survey();
