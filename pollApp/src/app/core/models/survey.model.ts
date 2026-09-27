@@ -64,3 +64,8 @@ export interface CreateSurveyPayload {
 export interface SubmitResponsePayload {
   answers: { questionId: string; optionId: string }[];
 }
+
+/** Option labels are shown as A, B, C, … */
+export function optionLetter(index: number): string {
+  return String.fromCharCode(65 + index);
+}

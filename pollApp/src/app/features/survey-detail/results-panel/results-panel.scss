@@ -1,63 +1,110 @@
+// Values from Figma "Results" component.
+:host {
+  display: block;
+}
+
 .results-panel {
-  padding: var(--space-5);
-  border-radius: var(--radius-md);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--color-text-dark);
+
+  &--empty {
+    gap: 24px;
+  }
 
   &__title {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: var(--space-4);
+    font-family: var(--font-family-heading);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 38.8px;
+    color: var(--color-text-darkest);
+  }
+
+  &__live {
+    color: var(--color-accent);
   }
 
   &__empty {
-    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 146px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22.6px;
   }
-}
 
-.live-dot {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--color-success);
-  border: 1px solid var(--color-success);
-  border-radius: var(--radius-pill);
-  padding: 2px var(--space-2);
+  &__empty-note {
+    text-align: center;
+  }
+
+  &__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 }
 
 .results-question {
-  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   &__text {
-    font-weight: 600;
-    margin-bottom: var(--space-2);
+    display: flex;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22.6px;
+  }
+
+  // Numbered list like the questions: number indented 6px, text starts 27px in.
+  &__number {
+    flex: 0 0 27px;
+    padding-left: 6px;
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
-.result-bar {
-  margin-bottom: var(--space-2);
+.result-row {
+  display: grid;
+  grid-template-columns: 15px minmax(0, 1fr) 33px;
+  align-items: start;
+  column-gap: 6px;
+  height: 18px;
 
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 4px;
+  &__letter {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17.6px;
   }
 
   &__track {
-    height: 8px;
-    border-radius: var(--radius-pill);
-    background: var(--color-bg-elevated-hover);
+    display: block;
+    height: 14px;
+    border-radius: 0 20px 20px 0;
+    background: var(--color-result-track);
     overflow: hidden;
   }
 
   &__fill {
+    display: block;
     height: 100%;
+    border-radius: 0 20px 20px 0;
     background: var(--color-accent);
-    border-radius: var(--radius-pill);
     transition: width 0.3s ease;
+  }
+
+  &__percent {
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 17.6px;
+    justify-self: end;
+    white-space: nowrap;
+    color: var(--color-result-percent);
   }
 }

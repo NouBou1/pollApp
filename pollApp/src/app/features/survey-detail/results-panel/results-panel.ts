@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { SurveyDetail, SurveyResults } from '../../../core/models/survey.model';
+import { SurveyDetail, SurveyResults, optionLetter } from '../../../core/models/survey.model';
 
 interface QuestionResultView {
   questionId: string;
@@ -15,6 +15,8 @@ interface QuestionResultView {
 export class ResultsPanel {
   survey = input.required<SurveyDetail>();
   results = input<SurveyResults | null>(null);
+
+  readonly letter = optionLetter;
 
   readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
 

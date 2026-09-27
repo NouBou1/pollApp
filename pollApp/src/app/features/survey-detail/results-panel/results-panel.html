@@ -1,24 +1,32 @@
-<div class="results-panel">
-  <h3 class="results-panel__title">Survey results <span class="live-dot">LIVE</span></h3>
+<div class="results-panel" [class.results-panel--empty]="!hasResponses()">
+  <h2 class="results-panel__title">Survey results <span class="results-panel__live">LIVE</span></h2>
 
   @if (!hasResponses()) {
-    <p class="results-panel__empty">There are no responses yet.</p>
+    <div class="results-panel__empty">
+      <p>Results will be shown here after participants complete the survey.</p>
+      <p class="results-panel__empty-note">There are no answers yet.</p>
+    </div>
   } @else {
-    @for (question of questionViews(); track question.questionId) {
-      <div class="results-question">
-        <p class="results-question__text">{{ question.text }}</p>
-        @for (option of question.options; track option.optionId) {
-          <div class="result-bar">
-            <div class="result-bar__label">
-              <span>{{ option.text }}</span>
-              <span>{{ option.percentage }}%</span>
-            </div>
-            <div class="result-bar__track">
-              <div class="result-bar__fill" [style.width.%]="option.percentage"></div>
-            </div>
+    <div class="results-panel__questions">
+      @for (question of questionViews(); track question.questionId; let qIndex = $index) {
+        <div class="results-question">
+          <p class="results-question__text">
+            <span class="results-question__number">{{ qIndex + 1 }}.</span>
+            <span>{{ question.text }}</span>
+          </p>
+          <div class="results-question__rows">
+            @for (option of question.options; track option.optionId; let oIndex = $index) {
+              <div class="result-row" [attr.title]="option.text">
+                <span class="result-row__letter">{{ letter(oIndex) }}</span>
+                <span class="result-row__track">
+                  <span class="result-row__fill" [style.width.%]="option.percentage"></span>
+                </span>
+                <span class="result-row__percent">{{ option.percentage }}%</span>
+              </div>
+            }
           </div>
-        }
-      </div>
-    }
+        </div>
+      }
+    </div>
   }
 </div>
