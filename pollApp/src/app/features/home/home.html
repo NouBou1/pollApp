@@ -8,7 +8,7 @@
       aria-hidden="true"
     />
     <p>Create and share surveys in minutes - from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
-    <app-button-primary class="hero__cta" routerLink="/create-survey" [mobileIcon]="true">
+    <app-button-primary class="hero__cta" routerLink="/create-survey" mobileIcon="plus">
       New survey
     </app-button-primary>
   </div>
@@ -60,6 +60,7 @@
           label="Sort by categories"
           [options]="categoryOptions"
           [value]="categoryFilter()"
+          [showChosen]="categoryFilter() !== 'all'"
           (valueChange)="categoryFilter.set($event)"
         />
       </div>
