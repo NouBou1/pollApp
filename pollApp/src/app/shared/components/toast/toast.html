@@ -1,5 +1,8 @@
 @if (visible()) {
   <div class="toast" role="status">
-    <ng-content />
+    <p class="toast__text"><ng-content /></p>
+    <button type="button" class="toast__close" aria-label="Close" (click)="closed.emit()">
+      <app-icon name="close" [width]="13" />
+    </button>
   </div>
 }
