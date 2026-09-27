@@ -1,4 +1,4 @@
-// Shared form-control styles for the create-survey flow (Figma "Create Survey" frame).
+// Shared form-control styles
 
 @mixin field-label {
   color: var(--color-text-primary);
@@ -33,11 +33,11 @@
   }
 }
 
-// Translucent peach button used for "Cancel" and "Add next question".
+// Soft button (Cancel, Add next question)
 @mixin soft-button {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 10px;
   height: 38px;
   padding: 0 var(--space-3);
   border: none;

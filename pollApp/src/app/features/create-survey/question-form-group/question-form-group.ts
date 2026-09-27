@@ -2,6 +2,7 @@ import { Component, computed, input, output } from '@angular/core';
 import { FormGroup, FormArray, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CloseIconButton } from '../../../shared/components/close-icon-button/close-icon-button';
 import { Checkbox } from '../../../shared/components/checkbox/checkbox';
+import { Icon } from '../../../shared/components/icon/icon';
 
 export type OptionForm = FormGroup<{ text: FormControl<string> }>;
 export type QuestionForm = FormGroup<{
@@ -23,7 +24,7 @@ export function buildOption(): OptionForm {
 
 @Component({
   selector: 'app-question-form-group',
-  imports: [ReactiveFormsModule, CloseIconButton, Checkbox],
+  imports: [ReactiveFormsModule, CloseIconButton, Checkbox, Icon],
   templateUrl: './question-form-group.html',
   styleUrl: './question-form-group.scss',
 })
@@ -40,7 +41,7 @@ export class QuestionFormGroup {
     return this.question().controls.allowMultiple;
   }
 
-  // Example questions from the Figma design, repeated for further questions.
+  // Example questions, cycled
   readonly placeholder = computed(
     () => QUESTION_PLACEHOLDERS[this.index() % QUESTION_PLACEHOLDERS.length],
   );
@@ -53,7 +54,7 @@ export class QuestionFormGroup {
     this.options.push(buildOption());
   }
 
-  // A question needs at least two answers, so below that the trash icon just clears the text.
+  // Min. two answers: clear instead of remove
   removeOption(index: number) {
     if (this.options.length <= 2) {
       this.options.at(index).reset();

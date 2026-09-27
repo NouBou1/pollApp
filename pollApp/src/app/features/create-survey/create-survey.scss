@@ -1,4 +1,5 @@
 @use '../../../styles/form-controls' as fc;
+@use '../../../styles/breakpoints' as bp;
 
 .create-survey {
   max-width: 1173px;
@@ -7,9 +8,22 @@
   border-radius: 0 var(--radius-card-corner) 0 0;
   background: var(--color-bg-base);
 
-  @media (max-width: 720px) {
-    padding: var(--space-5) var(--space-4);
-    border-top-right-radius: var(--space-7);
+  // Mobile
+  @media (max-width: bp.$mobile) {
+    margin: 0 calc(-1 * var(--space-4));
+    padding: 40px var(--space-4);
+    border-radius: 5px 100px 5px 5px;
+  }
+
+  &__header {
+    // Mobile
+    @media (max-width: bp.$mobile) {
+      display: grid;
+      grid-template-columns: minmax(0, 285px) auto;
+      justify-content: space-between;
+      row-gap: 16px;
+      padding: 0 9px;
+    }
   }
 
   &__status {
@@ -24,6 +38,10 @@
     justify-content: space-between;
     gap: var(--space-4);
     margin-top: var(--space-3);
+
+    @media (max-width: bp.$mobile) {
+      display: contents;
+    }
   }
 
   &__title {
@@ -32,8 +50,30 @@
     line-height: 1;
     color: var(--color-accent);
 
-    @media (max-width: 720px) {
-      font-size: 40px;
+    @media (max-width: bp.$mobile) {
+      grid-column: 1;
+      grid-row: 2;
+      padding-bottom: 10px;
+      line-height: 42px;
+    }
+  }
+
+  // Mobile: icon-only
+  &__cancel.soft-button {
+    @media (max-width: bp.$mobile) {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: start;
+      justify-content: center;
+      width: 39px;
+      height: 32px;
+      padding: 0;
+    }
+  }
+
+  &__cancel-label {
+    @media (max-width: bp.$mobile) {
+      display: none;
     }
   }
 
@@ -47,15 +87,39 @@
     border-radius: 0 60px 0 0;
     background: rgba(250, 245, 254, 0.05);
 
-    // Survey name/date and describing text sit a bit further from the questions (64px vs 48px).
     > :nth-child(-n + 2) {
       margin-bottom: var(--space-4);
     }
 
-    @media (max-width: 900px) {
-      grid-template-columns: minmax(0, 1fr);
-      row-gap: var(--space-6);
-      padding: var(--space-5) var(--space-4);
+    // Mobile
+    @media (max-width: bp.$mobile) {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 32px 1.5px 0;
+      padding: 40px 10px;
+      border-radius: 5px 80px 5px 5px;
+      background: rgba(142, 112, 153, 0.16);
+
+      > :nth-child(-n + 2) {
+        margin-bottom: 0;
+      }
+
+      > * + * {
+        margin-top: 40px;
+      }
+
+      > :nth-child(2) {
+        margin-top: 8px;
+      }
+
+      > :nth-child(3) {
+        margin-top: 48px;
+      }
+
+      > .create-survey__column--add {
+        margin-top: 88px;
+      }
     }
   }
 
@@ -69,6 +133,16 @@
     > .field {
       align-self: stretch;
     }
+
+    @media (max-width: bp.$mobile) {
+      gap: 8px;
+    }
+
+    &--add {
+      @media (max-width: bp.$mobile) {
+        align-items: center;
+      }
+    }
   }
 
   &__footer {
@@ -77,6 +151,11 @@
     justify-content: flex-end;
     gap: var(--space-4);
     margin-top: var(--space-7);
+
+    @media (max-width: bp.$mobile) {
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
   &__error {
@@ -85,43 +164,98 @@
   }
 }
 
+// Label above, input + clear button
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) 6px;
 
   &__label {
     @include fc.field-label;
+    grid-column: 1 / -1;
   }
 
   &__optional {
     font-weight: 400;
   }
 
-  &__control {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    &--top {
-      align-items: flex-start;
-    }
-  }
-
   &__input {
     @include fc.field-input;
-    flex: 1;
+    grid-column: 1;
     min-width: 0;
-
-    &--date {
-      flex: 0 0 220px;
-    }
 
     &--textarea {
       height: 108px;
       padding: 10px 14px;
       resize: none;
+    }
+
+    // Hide native placeholder and calendar icon
+    &--date {
+      position: relative;
+
+      &.is-empty:not(:focus)::-webkit-datetime-edit {
+        color: transparent;
+      }
+
+      &::-webkit-calendar-picker-indicator {
+        position: absolute;
+        inset: 0;
+        width: auto;
+        height: auto;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__clear {
+    grid-column: 2;
+  }
+
+  &--date {
+    grid-template-columns: 220px auto;
+    justify-content: start;
+  }
+
+  &--top &__clear {
+    align-self: start;
+  }
+
+  @media (max-width: bp.$mobile) {
+    row-gap: 4px;
+
+    &--date {
+      grid-template-columns: minmax(0, 1fr) auto;
+      justify-content: stretch;
+    }
+
+    &__label {
+      grid-column: 1;
+      grid-row: 1;
+      font-weight: 700;
+    }
+
+    &__label,
+    &__clear,
+    &--top &__clear {
+      align-self: start;
+    }
+
+    &__clear,
+    &--top &__clear {
+      grid-row: 1;
+      margin-right: 16px;
+    }
+
+    &__input {
+      grid-column: 1 / -1;
+      height: 37px;
+    }
+
+    &__input--textarea {
+      height: 108px;
     }
   }
 }
@@ -135,10 +269,38 @@
   align-self: stretch;
 
   &__category {
+    --sort-by-pad-left: 0;
     margin-top: 2px;
+  }
+
+  // Mobile
+  @media (max-width: bp.$mobile) {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+
+    &__category {
+      height: 55px;
+      margin-top: 0;
+      padding-top: 5px;
+    }
   }
 }
 
 .soft-button {
   @include fc.soft-button;
+
+  // Mobile
+  @media (max-width: bp.$mobile) {
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 183, 112, 0.3);
+    font-family: 'Nokora', var(--font-family-base);
+    font-weight: 700;
+    line-height: 21.1px;
+
+    &:hover {
+      background: rgba(255, 183, 112, 0.6);
+    }
+  }
 }

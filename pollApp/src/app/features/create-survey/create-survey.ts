@@ -8,6 +8,7 @@ import { Toast } from '../../shared/components/toast/toast';
 import { SurveyService } from '../../core/services/survey.service';
 import { CreateSurveyPayload, SURVEY_CATEGORIES } from '../../core/models/survey.model';
 import { buildOption, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
+import { Icon } from '../../shared/components/icon/icon';
 
 function buildQuestion(): QuestionForm {
   return new FormGroup({
@@ -28,6 +29,7 @@ function endOfDayIso(dateOnly: string): string {
     RouterLink,
     ButtonPrimary,
     CloseIconButton,
+    Icon,
     SortBySelect,
     Toast,
     QuestionFormGroup,
@@ -45,7 +47,7 @@ export class CreateSurvey {
   }));
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
-  readonly showPublishedToast = signal(false);
+  readonly publishedSurveyId = signal<string | null>(null);
 
   readonly form = new FormGroup({
     title: new FormControl('', { nonNullable: true, validators: Validators.required }),
@@ -72,6 +74,11 @@ export class CreateSurvey {
     this.questions.removeAt(index);
   }
 
+  openPublishedSurvey() {
+    const id = this.publishedSurveyId();
+    if (id) this.router.navigate(['/survey', id]);
+  }
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -95,10 +102,7 @@ export class CreateSurvey {
     this.submitting.set(true);
     this.error.set(null);
     this.surveyService.createSurvey(payload).subscribe({
-      next: ({ id }) => {
-        this.showPublishedToast.set(true);
-        setTimeout(() => this.router.navigate(['/survey', id]), 800);
-      },
+      next: ({ id }) => this.publishedSurveyId.set(id),
       error: () => {
         this.error.set('Could not publish the survey. Is the backend running?');
         this.submitting.set(false);
