@@ -21,6 +21,25 @@
   }
 }
 
+// Mobile header
+@media (max-width: 720px) {
+  :host(:not(.app--light)) {
+    .app-header {
+      padding: 48px var(--space-4) 0;
+      border-bottom: none;
+    }
+
+    .app-header__logo-icon {
+      height: 50px;
+      margin: 0;
+    }
+
+    .app-main {
+      padding: 50px var(--space-4) var(--space-4);
+    }
+  }
+}
+
 .app-main {
   padding: var(--space-6);
   max-width: 1440px;

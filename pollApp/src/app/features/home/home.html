@@ -1,8 +1,16 @@
 <section class="hero">
   <div class="hero__text">
     <h1>Collect Feedback, Unlock Ideas</h1>
+    <img
+      class="hero__illustration-mobile"
+      src="/assets/hero-illustration-mobile.png"
+      alt=""
+      aria-hidden="true"
+    />
     <p>Create and share surveys in minutes - from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
-    <app-button-primary routerLink="/create-survey">New survey</app-button-primary>
+    <app-button-primary class="hero__cta" routerLink="/create-survey" [mobileIcon]="true">
+      New survey
+    </app-button-primary>
   </div>
   <img class="hero__illustration" src="/assets/hero-illustration.svg" alt="" aria-hidden="true" />
 </section>
