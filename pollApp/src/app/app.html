@@ -6,8 +6,8 @@
       alt="PollApp"
     />
   </a>
-  @if (isLight()) {
-    <app-button-primary routerLink="/create-survey">Create survey</app-button-primary>
+  @if (showHeaderCta()) {
+    <app-button-primary class="app-header__cta" routerLink="/create-survey">Create survey</app-button-primary>
   }
 </header>
 

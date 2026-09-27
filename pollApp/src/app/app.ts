@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Data, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { ButtonPrimary } from './shared/components/button-primary/button-primary';
 
@@ -14,16 +14,19 @@ import { ButtonPrimary } from './shared/components/button-primary/button-primary
 export class App {
   private readonly router = inject(Router);
 
-  // Routes opt into the light page design via `data: { theme: 'light' }`.
-  readonly isLight = toSignal(
+  // Route data: theme: 'light', headerCta: false
+  private readonly routeData = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
-      map(() => {
+      map((): Data => {
         let route = this.router.routerState.snapshot.root;
         while (route.firstChild) route = route.firstChild;
-        return route.data['theme'] === 'light';
+        return route.data;
       }),
     ),
-    { initialValue: false },
+    { initialValue: {} as Data },
   );
+
+  readonly isLight = computed(() => this.routeData()['theme'] === 'light');
+  readonly showHeaderCta = computed(() => this.isLight() && this.routeData()['headerCta'] !== false);
 }

@@ -8,6 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'create-survey',
+    data: { theme: 'light', headerCta: false },
     loadComponent: () => import('./features/create-survey/create-survey').then((m) => m.CreateSurvey),
   },
   {
