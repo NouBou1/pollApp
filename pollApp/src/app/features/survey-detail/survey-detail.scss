@@ -1,32 +1,75 @@
-// Values from Figma frames "Single survey view + results" / "- no results yet".
+@use '../../../styles/breakpoints' as bp;
+
 .survey-detail {
   display: flex;
   align-items: flex-end;
   gap: 42px;
   color: var(--color-text-dark);
 
-  @media (max-width: 1100px) {
+  @media (max-width: bp.$mobile) {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--space-7);
+    gap: 56px;
   }
 }
 
 .survey-detail__results {
   flex: 0 0 315px;
 
-  // Without responses the column sits 177px below the panel top instead of at the bottom.
+  // No responses yet
   &--empty {
     align-self: flex-start;
     margin-top: 177px;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: bp.$mobile) {
+    display: flex;
     flex-basis: auto;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 14px;
 
     &--empty {
       margin-top: 0;
     }
+  }
+}
+
+// Mobile results toggle
+.results-toggle {
+  display: none;
+
+  @media (max-width: bp.$mobile) {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 4px;
+    padding: 4px 6px 4px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-dark);
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22.6px;
+    cursor: pointer;
+  }
+
+  &__arrow {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.15s ease;
+
+    &.is-open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.survey-detail__results-panel.is-collapsed {
+  @media (max-width: bp.$mobile) {
+    display: none;
   }
 }
 
@@ -39,25 +82,53 @@
   border-radius: 0 160px 0 0;
   background: var(--color-survey-panel-bg);
 
-  @media (max-width: 1100px) {
+  @media (max-width: bp.$mobile) {
     flex-basis: auto;
   }
 
-  @media (max-width: 720px) {
-    padding: var(--space-5) var(--space-4);
-    border-top-right-radius: var(--space-8);
+  // Mobile
+  @media (max-width: bp.$mobile) {
+    gap: 16px;
+    padding: 40px 11.5px;
+    border-top-right-radius: 100px;
+  }
+
+  &__status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .status-badge {
+      align-self: center;
+    }
+
+    @media (max-width: bp.$mobile) {
+      margin-right: 13px;
+    }
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    @media (max-width: bp.$mobile) {
+      gap: 40px;
+    }
   }
 
   &__intro {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    @media (max-width: bp.$mobile) {
+      gap: 16px;
+
+      .survey-panel__description {
+        margin-top: 8px;
+      }
+    }
   }
 
   &__meta {
@@ -68,10 +139,20 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 17.6px;
+
+    @media (max-width: bp.$mobile) {
+      max-width: none;
+    }
+  }
+
+  &__meta > :first-child {
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   &__category {
     margin-left: auto;
+    text-align: right;
     color: var(--color-text-darkest);
   }
 
@@ -81,9 +162,9 @@
     line-height: 50px;
     color: var(--color-title-orange);
 
-    @media (max-width: 720px) {
-      font-size: 40px;
-      line-height: 38px;
+    @media (max-width: bp.$mobile) {
+      font-size: 48px;
+      line-height: 42px;
     }
   }
 
@@ -97,10 +178,11 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
-    margin-top: 16px; // 40px in Figma minus the 24px content gap
+    margin-top: 16px;
 
-    @media (max-width: 720px) {
+    @media (max-width: bp.$mobile) {
       grid-template-columns: minmax(0, 1fr);
+      margin-top: 0;
     }
   }
 
@@ -115,6 +197,22 @@
     font-size: 16px;
     font-weight: 700;
     line-height: 20.1px;
+  }
+}
+
+// Mobile close button
+.close-button {
+  display: none;
+
+  @media (max-width: bp.$mobile) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--color-accent-secondary);
+    color: var(--color-text-dark);
   }
 }
 
@@ -148,7 +246,7 @@
     line-height: 22.6px;
   }
 
-  // Figma uses a numbered list: number indented 6px, text starts 27px in.
+  // Numbered list
   &__number {
     flex: 0 0 27px;
     padding-left: 6px;
@@ -169,7 +267,7 @@
   }
 }
 
-// Figma "Answer": default / hover (#ffcfa1 at 40%) / clicked (orange checkbox).
+// Answer option
 .answer {
   display: flex;
   align-items: flex-start;
@@ -234,7 +332,7 @@
   }
 }
 
-// Figma "Secondary button": #ffb770 at 30%, 60% on hover.
+// Secondary button
 .complete-button {
   padding: 8px 12px;
   border: none;
@@ -254,6 +352,36 @@
 
   &:disabled {
     cursor: not-allowed;
+  }
+
+  &__label--mobile,
+  &__check {
+    display: none;
+  }
+
+  // Mobile: primary style with check icon
+  @media (max-width: bp.$mobile) {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--color-accent);
+    color: var(--color-text-darkest);
+    font-size: 18px;
+    line-height: 23.8px;
+
+    &:hover:not(:disabled) {
+      background: var(--color-accent);
+    }
+
+    &__label {
+      display: none;
+    }
+
+    &__label--mobile,
+    &__check {
+      display: inline;
+    }
   }
 }
 

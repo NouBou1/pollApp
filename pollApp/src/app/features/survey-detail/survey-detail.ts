@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SurveyService } from '../../core/services/survey.service';
 import {
@@ -8,10 +8,11 @@ import {
   optionLetter,
 } from '../../core/models/survey.model';
 import { ResultsPanel } from './results-panel/results-panel';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-survey-detail',
-  imports: [DatePipe, ResultsPanel],
+  imports: [DatePipe, RouterLink, Icon, ResultsPanel],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
@@ -27,6 +28,7 @@ export class SurveyDetail {
   readonly submitting = signal(false);
   readonly submitted = signal(false);
   readonly letter = optionLetter;
+  readonly resultsOpen = signal(true);
 
   readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
 
@@ -65,7 +67,7 @@ export class SurveyDetail {
     this.surveyService.getResults(id).subscribe({
       next: (results) => this.results.set(results),
       error: () => {
-        // Results are secondary to the survey itself; fail silently and keep the "no responses yet" state.
+        // Optional: keep the empty state
       },
     });
   }

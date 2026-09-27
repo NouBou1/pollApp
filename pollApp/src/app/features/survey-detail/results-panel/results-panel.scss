@@ -1,4 +1,3 @@
-// Values from Figma "Results" component.
 :host {
   display: block;
 }
@@ -57,7 +56,7 @@
     line-height: 22.6px;
   }
 
-  // Numbered list like the questions: number indented 6px, text starts 27px in.
+  // Numbered like the questions
   &__number {
     flex: 0 0 27px;
     padding-left: 6px;

@@ -5,7 +5,12 @@
 } @else if (survey(); as survey) {
   <div class="survey-detail">
     <section class="survey-panel">
-      <span class="status-badge">Published</span>
+      <div class="survey-panel__status">
+        <span class="status-badge">Published</span>
+        <a class="close-button" routerLink="/home" aria-label="Close survey">
+          <app-icon name="close" [width]="13" />
+        </a>
+      </div>
 
       <div class="survey-panel__content">
         <div class="survey-panel__intro">
@@ -67,7 +72,9 @@
               [disabled]="!canSubmit() || submitting()"
               (click)="submit()"
             >
-              Complete survey
+              <span class="complete-button__label">Complete survey</span>
+              <span class="complete-button__label complete-button__label--mobile">Complete</span>
+              <app-icon class="complete-button__check" name="check" />
             </button>
           } @else {
             <p class="survey-panel__thanks">Thanks for completing the survey!</p>
@@ -76,11 +83,22 @@
       </div>
     </section>
 
-    <app-results-panel
-      class="survey-detail__results"
-      [class.survey-detail__results--empty]="!hasResponses()"
-      [survey]="survey"
-      [results]="results()"
-    />
+    <div class="survey-detail__results" [class.survey-detail__results--empty]="!hasResponses()">
+      <button
+        type="button"
+        class="results-toggle"
+        [attr.aria-expanded]="resultsOpen()"
+        (click)="resultsOpen.set(!resultsOpen())"
+      >
+        {{ resultsOpen() ? "Close results" : "See results" }}
+        <app-icon class="results-toggle__arrow" [class.is-open]="resultsOpen()" name="arrow-drop-down" />
+      </button>
+      <app-results-panel
+        class="survey-detail__results-panel"
+        [class.is-collapsed]="!resultsOpen()"
+        [survey]="survey"
+        [results]="results()"
+      />
+    </div>
   </div>
 }

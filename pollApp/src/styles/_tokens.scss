@@ -1,11 +1,11 @@
-// Design tokens extracted from the Figma dev-mode inspect panel.
+// Design tokens
 :root {
   // Backgrounds
   --color-bg-base: #35273a;
   --color-bg-elevated: #241a33;
   --color-bg-elevated-hover: #d9d9d914;
 
-  // Cards (light, lavender-tinted surfaces on the dark page background)
+  // Cards
   --color-card-bg: #faf5fe;
   --color-card-bg-hover: #ffffff;
   --color-card-text: #35273a;
@@ -13,7 +13,7 @@
 
   // Light page (single survey view)
   --color-page-light-bg: #fefdff;
-  --color-survey-panel-bg: rgba(142, 112, 153, 0.1);
+  --color-survey-panel-bg: #f3eff5;
   --color-title-orange: #ee9236;
   --color-result-track: #ededed;
   --color-result-percent: #d79451;
