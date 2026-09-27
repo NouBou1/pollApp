@@ -1,4 +1,5 @@
-// Figma "primary button": #ffcfa1, radius 10, padding 12/16, Nokora 700 18px; hover #ffb770 + plus icon.
+@use '../../../../styles/breakpoints' as bp;
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -24,7 +25,8 @@
     cursor: not-allowed;
   }
 
-  &__plus {
+  // Icon revealed on hover
+  &__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -38,21 +40,29 @@
       opacity 0.2s ease;
   }
 
-  &:hover:not(:disabled) &__plus {
-    width: 12px;
-    margin-left: var(--space-2);
+  &:hover:not(:disabled) &__icon {
+    width: 24px;
+    margin-left: 10px;
     opacity: 1;
   }
 
-  @media (max-width: 720px) {
+  &--check:hover:not(:disabled) &__icon {
+    width: 18px;
+  }
+
+  @media (max-width: bp.$mobile) {
     &--mobile-icon {
       background: var(--color-accent);
     }
 
-    &--mobile-icon &__plus {
-      width: 12px;
-      margin-left: var(--space-2);
+    &--mobile-icon &__icon {
+      width: 24px;
+      margin-left: 10px;
       opacity: 1;
+    }
+
+    &--mobile-icon.btn-primary--check &__icon {
+      width: 18px;
     }
   }
 }

@@ -1,14 +1,17 @@
 <button
   class="btn-primary"
   [class.btn-primary--mobile-icon]="mobileIcon()"
+  [class.btn-primary--check]="mobileIcon() === 'check'"
   [type]="type()"
   [disabled]="disabled()"
   (click)="clicked.emit()"
 >
   <ng-content />
-  <span class="btn-primary__plus" aria-hidden="true">
-    <svg viewBox="0 0 12 12" width="12" height="12">
-      <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-    </svg>
+  <span class="btn-primary__icon">
+    @if (mobileIcon() === 'check') {
+      <app-icon name="check" />
+    } @else {
+      <app-icon name="add-circle" />
+    }
   </span>
 </button>
