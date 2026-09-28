@@ -41,7 +41,6 @@ export class QuestionFormGroup {
     return this.question().controls.allowMultiple;
   }
 
-  // Example questions, cycled
   readonly placeholder = computed(
     () => QUESTION_PLACEHOLDERS[this.index() % QUESTION_PLACEHOLDERS.length],
   );
@@ -54,7 +53,6 @@ export class QuestionFormGroup {
     this.options.push(buildOption());
   }
 
-  // Min. two answers: clear instead of remove
   removeOption(index: number) {
     if (this.options.length <= 2) {
       this.options.at(index).reset();

@@ -2,10 +2,9 @@
 @use '../../../styles/breakpoints' as bp;
 
 .create-survey {
-  max-width: 1173px;
-  margin: 0 auto;
-  padding: 40px 60px;
-  border-radius: 0 var(--radius-card-corner) 0 0;
+  max-width: 1166px;
+  padding: 40px 54px 40px 59px;
+  border-radius: 5px 100px 5px 5px;
   background: var(--color-bg-base);
 
   // Mobile
@@ -34,10 +33,9 @@
 
   &__title-row {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-4);
-    margin-top: var(--space-3);
 
     @media (max-width: bp.$mobile) {
       display: contents;
@@ -45,20 +43,22 @@
   }
 
   &__title {
+    height: 61px;
     font-size: 56px;
     font-weight: 400;
-    line-height: 1;
-    color: var(--color-accent);
+    line-height: 67.8px;
+    color: var(--color-title-orange);
 
     @media (max-width: bp.$mobile) {
       grid-column: 1;
       grid-row: 2;
+      height: auto;
       padding-bottom: 10px;
       line-height: 42px;
     }
   }
 
-  // Mobile: icon-only
+  // Mobile
   &__cancel.soft-button {
     @media (max-width: bp.$mobile) {
       grid-column: 2;
@@ -80,15 +80,15 @@
   &__body {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 75px;
-    row-gap: var(--space-7);
-    margin-top: var(--space-6);
+    column-gap: 64px;
+    row-gap: 40px;
+    margin-top: 32px;
     padding: 40px 24px;
-    border-radius: 0 60px 0 0;
-    background: rgba(250, 245, 254, 0.05);
+    border-radius: 5px 80px 5px 5px;
+    background: rgba(142, 112, 153, 0.16);
 
     > :nth-child(-n + 2) {
-      margin-bottom: var(--space-4);
+      margin-bottom: 24px;
     }
 
     // Mobile
@@ -98,8 +98,6 @@
       gap: 0;
       margin: 32px 1.5px 0;
       padding: 40px 10px;
-      border-radius: 5px 80px 5px 5px;
-      background: rgba(142, 112, 153, 0.16);
 
       > :nth-child(-n + 2) {
         margin-bottom: 0;
@@ -127,15 +125,11 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: 8px;
     min-width: 0;
 
     > .field {
       align-self: stretch;
-    }
-
-    @media (max-width: bp.$mobile) {
-      gap: 8px;
     }
 
     &--add {
@@ -164,12 +158,13 @@
   }
 }
 
-// Label above, input + clear button
+// Field
 .field {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 429px) 26px;
+  justify-content: start;
   align-items: center;
-  gap: var(--space-2) 6px;
+  gap: 4px 8px;
 
   &__label {
     @include fc.field-label;
@@ -191,7 +186,6 @@
       resize: none;
     }
 
-    // Hide native placeholder and calendar icon
     &--date {
       position: relative;
 
@@ -215,8 +209,11 @@
   }
 
   &--date {
-    grid-template-columns: 220px auto;
-    justify-content: start;
+    grid-template-columns: 222px 26px;
+  }
+
+  &--top {
+    grid-template-columns: minmax(0, 418px) 26px;
   }
 
   &--top &__clear {
@@ -224,17 +221,18 @@
   }
 
   @media (max-width: bp.$mobile) {
-    row-gap: 4px;
+    column-gap: 0;
+    justify-content: stretch;
 
-    &--date {
+    &,
+    &--date,
+    &--top {
       grid-template-columns: minmax(0, 1fr) auto;
-      justify-content: stretch;
     }
 
     &__label {
       grid-column: 1;
       grid-row: 1;
-      font-weight: 700;
     }
 
     &__label,
@@ -251,27 +249,17 @@
 
     &__input {
       grid-column: 1 / -1;
-      height: 37px;
-    }
-
-    &__input--textarea {
-      height: 108px;
     }
   }
 }
 
+// Date + category row
 .field-row {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--space-3) var(--space-5);
+  gap: 8px;
   align-self: stretch;
-
-  &__category {
-    --sort-by-pad-left: 0;
-    margin-top: 2px;
-  }
 
   // Mobile
   @media (max-width: bp.$mobile) {
@@ -280,8 +268,8 @@
     gap: 8px;
 
     &__category {
+      --sort-by-pad-left: 0;
       height: 55px;
-      margin-top: 0;
       padding-top: 5px;
     }
   }
@@ -289,18 +277,4 @@
 
 .soft-button {
   @include fc.soft-button;
-
-  // Mobile
-  @media (max-width: bp.$mobile) {
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255, 183, 112, 0.3);
-    font-family: 'Nokora', var(--font-family-base);
-    font-weight: 700;
-    line-height: 21.1px;
-
-    &:hover {
-      background: rgba(255, 183, 112, 0.6);
-    }
-  }
 }

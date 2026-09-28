@@ -62,7 +62,6 @@
         </div>
       </div>
 
-      <!-- Questions fill the two-column grid in order; "Add next question" takes the next free cell. -->
       @for (question of questions.controls; track question) {
         <app-question-form-group
           [question]="question"

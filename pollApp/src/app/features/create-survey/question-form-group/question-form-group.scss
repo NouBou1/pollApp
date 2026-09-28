@@ -4,14 +4,14 @@
 .question-group {
   display: flex;
   flex-direction: column;
-  width: 428px;
+  width: 429px;
   max-width: 100%;
 
   &__header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding-left: var(--space-1);
+    padding-left: 6px;
   }
 
   &__label {
@@ -20,7 +20,7 @@
 
   &__text {
     @include fc.field-input;
-    margin-top: var(--space-2);
+    margin-top: 8px;
   }
 
   &__answers-header {
@@ -28,35 +28,39 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    margin-top: 30px;
+    margin-top: 24px;
   }
 
   &__allow-multiple {
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 17.6px;
   }
 
   &__options {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    margin-top: var(--space-4);
+    gap: 8px;
+    margin-top: 16px;
   }
 
+  // Add answer
   &__add-answer {
     display: inline-flex;
     align-items: center;
     align-self: flex-start;
     gap: 4px;
-    margin-top: var(--space-5);
+    margin-top: 24px;
+    margin-bottom: 8px;
     margin-left: 38px;
     padding: 0 0 2px;
     border: none;
     border-bottom: 1px solid currentColor;
     background: transparent;
     color: var(--color-text-primary);
-    font-family: inherit;
+    font-family: 'Nokora', var(--font-family-base);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
+    line-height: 21.1px;
     cursor: pointer;
     transition: color 0.15s ease;
 
@@ -69,61 +73,40 @@
   @media (max-width: bp.$mobile) {
     width: 100%;
 
-    &__header {
-      padding-left: 0;
-
-      app-close-icon-button {
-        margin-right: 16px;
-      }
-    }
-
-    &__label {
-      font-weight: 700;
-      line-height: 22.6px;
+    &__header app-close-icon-button {
+      margin-right: 16px;
     }
 
     &__text {
       height: 34px;
     }
 
-    &__answers-header {
-      margin-top: 24px;
-    }
-
-    &__allow-multiple {
-      font-size: 14px;
-      line-height: 17.6px;
-    }
-
     &__options {
-      gap: 8px;
       margin-top: 8px;
     }
 
     &__add-answer {
-      margin-top: 24px;
       margin-left: 12px;
-      font-family: 'Nokora', var(--font-family-base);
-      font-weight: 700;
-      line-height: 21.1px;
     }
   }
 }
 
+// Answer row
 .option-row {
   display: flex;
   align-items: center;
-  gap: 6px;
 
   &__letter {
     @include fc.field-label;
-    flex: 0 0 22px;
+    flex: 0 0 23px;
+    margin-right: 4px;
   }
 
   &__text {
     @include fc.field-input;
-    flex: 1;
+    flex: 0 1 363px;
     min-width: 0;
+    margin-right: 8px;
   }
 
   // Mobile
@@ -134,9 +117,9 @@
     align-items: start;
     gap: 4px 0;
 
-    &__letter {
-      font-weight: 700;
-      line-height: 22.6px;
+    &__letter,
+    &__text {
+      margin-right: 0;
     }
 
     app-close-icon-button {
@@ -147,7 +130,6 @@
 
     &__text {
       grid-column: 1 / -1;
-      height: 37px;
     }
   }
 }
