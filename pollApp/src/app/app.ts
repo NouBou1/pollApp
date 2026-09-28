@@ -14,7 +14,6 @@ import { ButtonPrimary } from './shared/components/button-primary/button-primary
 export class App {
   private readonly router = inject(Router);
 
-  // Route data: theme: 'light', headerCta: false
   private readonly routeData = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),

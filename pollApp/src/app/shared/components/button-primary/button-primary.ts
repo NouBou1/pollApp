@@ -10,7 +10,6 @@ import { Icon } from '../icon/icon';
 export class ButtonPrimary {
   type = input<'button' | 'submit'>('button');
   disabled = input(false);
-  /** Shows this icon permanently on mobile. */
   mobileIcon = input<'plus' | 'check' | null>(null);
   clicked = output<void>();
 }

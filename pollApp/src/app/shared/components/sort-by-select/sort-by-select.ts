@@ -18,7 +18,6 @@ export class SortBySelect {
   options = input.required<SortOption[]>();
   value = input<string>('');
   label = input('Sort by');
-  /** Shows the chosen option below the closed dropdown. */
   showChosen = input(false);
   valueChange = output<string>();
 

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 
-// Icon paths from Figma
+// Icons
 const ICONS = {
   'add-circle': {
     viewBox: '0 0 20 20',
@@ -22,7 +22,6 @@ const ICONS = {
 
 export type IconName = keyof typeof ICONS;
 
-/** SVG icon in `currentColor`; `width` alone scales proportionally. */
 @Component({
   selector: 'app-icon',
   template: `

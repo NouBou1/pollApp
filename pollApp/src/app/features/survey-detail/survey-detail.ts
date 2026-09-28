@@ -66,9 +66,7 @@ export class SurveyDetail {
   private loadResults(id: string) {
     this.surveyService.getResults(id).subscribe({
       next: (results) => this.results.set(results),
-      error: () => {
-        // Optional: keep the empty state
-      },
+      error: () => {},
     });
   }
 

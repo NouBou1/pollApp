@@ -16,7 +16,6 @@
 .survey-detail__results {
   flex: 0 0 315px;
 
-  // No responses yet
   &--empty {
     align-self: flex-start;
     margin-top: 177px;
@@ -246,7 +245,6 @@
     line-height: 22.6px;
   }
 
-  // Numbered list
   &__number {
     flex: 0 0 27px;
     padding-left: 6px;
@@ -359,7 +357,7 @@
     display: none;
   }
 
-  // Mobile: primary style with check icon
+  // Mobile
   @media (max-width: bp.$mobile) {
     display: inline-flex;
     align-items: center;

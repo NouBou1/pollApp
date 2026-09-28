@@ -1,6 +1,5 @@
 import { Component, input, output } from '@angular/core';
 
-/** UI-only stub until accounts exist. */
 @Component({
   selector: 'app-privacy-toggle',
   templateUrl: './privacy-toggle.html',
