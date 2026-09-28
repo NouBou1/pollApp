@@ -1,9 +1,19 @@
 @use '../styles/breakpoints' as bp;
 
+// Figma: logo at 111/39 in a 1218px column, same on every page
 .app-header {
   display: flex;
-  align-items: center;
-  padding: var(--space-4) var(--space-6);
+  align-items: flex-start;
+  justify-content: space-between;
+  box-sizing: content-box;
+  height: 48px;
+  max-width: 1218px;
+  margin: 0 auto;
+  padding: 39px 0 0;
+
+  @media (max-width: 1250px) {
+    padding: var(--space-5) var(--space-4) 0;
+  }
 
   &__logo {
     display: flex;
@@ -15,10 +25,18 @@
 
   &__logo-icon {
     flex-shrink: 0;
-    height: 40px;
+    height: 50px;
     width: auto;
-    margin-top: var(--space-4);
-    margin-left: var(--space-6);
+  }
+}
+
+.app-main {
+  max-width: 1218px;
+  margin: 0 auto;
+  padding: 40px 0 42px;
+
+  @media (max-width: 1250px) {
+    padding: var(--space-6) var(--space-4);
   }
 }
 
@@ -26,12 +44,8 @@
 @media (max-width: bp.$mobile) {
   :host(:not(.app--light)) {
     .app-header {
+      height: auto;
       padding: 48px var(--space-4) 0;
-    }
-
-    .app-header__logo-icon {
-      height: 50px;
-      margin: 0;
     }
 
     .app-main {
@@ -40,49 +54,11 @@
   }
 }
 
-.app-main {
-  padding: var(--space-6);
-  max-width: 1440px;
-  margin: 0 auto;
-
-  @media (max-width: bp.$mobile) {
-    padding: var(--space-4);
-  }
-}
-
 // Light page
 :host(.app--light) {
   display: block;
   min-height: 100vh;
   background: var(--color-page-light-bg);
-
-  .app-header {
-    align-items: flex-start;
-    justify-content: space-between;
-    height: 48px;
-    box-sizing: content-box;
-    max-width: 1218px;
-    margin: 0 auto;
-    padding: 39px 0 0;
-
-    @media (max-width: 1250px) {
-      padding: var(--space-5) var(--space-4) 0;
-    }
-  }
-
-  .app-header__logo-icon {
-    height: 50px;
-    margin: 0;
-  }
-
-  .app-main {
-    max-width: 1218px;
-    padding: 40px 0 42px;
-
-    @media (max-width: 1250px) {
-      padding: var(--space-6) var(--space-4);
-    }
-  }
 
   // Mobile
   @media (max-width: bp.$mobile) {

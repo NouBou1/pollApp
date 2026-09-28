@@ -12,7 +12,7 @@
       New survey
     </app-button-primary>
   </div>
-  <img class="hero__illustration" src="/assets/hero-illustration.svg" alt="" aria-hidden="true" />
+  <img class="hero__illustration" src="/assets/hero-illustration.png" alt="" aria-hidden="true" />
 </section>
 
 @if (error()) {
@@ -68,10 +68,12 @@
       @if (filteredSurveys().length === 0) {
         <p class="state-message">No surveys here yet.</p>
       } @else {
-        <div class="survey-grid survey-grid--2col">
-          @for (survey of filteredSurveys(); track survey.id) {
-            <app-survey-card [survey]="survey" [wide]="true" />
-          }
+        <div class="survey-list">
+          <div class="survey-grid survey-grid--2col">
+            @for (survey of filteredSurveys(); track survey.id) {
+              <app-survey-card [survey]="survey" [wide]="true" />
+            }
+          </div>
         </div>
       }
     </section>
