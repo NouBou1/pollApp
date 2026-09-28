@@ -1,6 +1,6 @@
 @use '../../../styles/breakpoints' as bp;
 
-// Figma "Home": hero at y=177, 712px text + 32px + 426x420 visual, 90px to "Your surveys"
+// Hero
 .hero {
   display: flex;
   align-items: flex-start;
@@ -36,7 +36,7 @@
   }
 
   &__cta {
-    margin-top: 16px; // 40px in Figma
+    margin-top: 16px;
 
     @media (max-width: bp.$mobile) {
       align-self: center;
@@ -81,18 +81,17 @@
 .surveys-container {
   max-width: 1042px;
   margin: 0 auto;
-  padding-bottom: 115px; // list ends 157px above the page bottom in Figma
+  padding-bottom: 115px;
 
   @media (max-width: bp.$mobile) {
     padding-bottom: 0;
   }
 }
 
-// The Figma "Highlights" frame casts a 0/4/4 shadow on its contents
 .section-title {
   display: flex;
   justify-content: center;
-  height: 82px; // Figma text box
+  height: 82px;
   margin-bottom: 56px;
   font-family: var(--font-family-heading);
   font-size: 72px;
@@ -112,7 +111,7 @@
 .survey-section {
   margin-bottom: 40px;
 
-  // Filters row: 25px tabs, 32px dropdown, list 65px below the row top
+  // Filters row
   &__header {
     display: flex;
     align-items: flex-start;
@@ -131,7 +130,7 @@
 }
 
 .subsection-title {
-  min-height: 42px; // Figma text box
+  min-height: 42px;
   margin-bottom: 32px;
   font-size: 32px;
   font-weight: 500;
@@ -187,7 +186,6 @@
   display: grid;
   gap: var(--space-4);
 
-  // Figma: 321px cards, 32px apart
   &--3col {
     grid-template-columns: repeat(3, 321px);
     gap: 32px;
@@ -230,7 +228,7 @@
   }
 }
 
-// Figma: 3 rows (422px) visible, orange 8px scrollbar 15px right of the list
+// Survey list
 .survey-list {
   @media (min-width: calc(bp.$mobile + 1px)) {
     max-height: 422px;
@@ -239,7 +237,7 @@
     overflow-y: auto;
     scrollbar-gutter: stable;
 
-    // Firefox; Chrome would ignore the ::-webkit-scrollbar styles if these were set
+    // Firefox
     @supports not selector(::-webkit-scrollbar) {
       scrollbar-color: var(--color-accent) transparent;
       scrollbar-width: thin;

@@ -19,16 +19,15 @@
     background: var(--color-card-bg-hover);
   }
 
-  // Figma "Highlights card": 321x310, 233px content centered, badge bottom left
+  // Highlight card
   &--highlight {
     width: 100%;
     max-width: 321px;
     min-height: 310px;
-    padding: 40px 44px 60px; // Figma content ends 20px above the 40px padding
+    padding: 40px 44px 60px;
     gap: 10px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
-    // Figma hover: #f4e9fb card, #ffb770 badge
     &:hover {
       background: #f4e9fb;
 
@@ -97,7 +96,7 @@
     line-height: 1.3;
   }
 
-  // Figma "edning date": #ffcfa1, radius 0/14/0/0, 14px
+  // Ends badge
   &__ends-badge {
     align-self: flex-end;
     padding: 3px 6px;
@@ -110,7 +109,7 @@
     transition: background 0.15s ease;
   }
 
-  // Figma "Survey view in the list": 513x130
+  // List card
   &--wide {
     align-self: start;
     min-height: 130px;
