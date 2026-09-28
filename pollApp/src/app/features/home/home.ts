@@ -35,7 +35,7 @@ export class Home {
     this.surveys()
       .filter((survey) => survey.endsAt && !this.isPast(survey))
       .sort((a, b) => (a.endsAt! < b.endsAt! ? -1 : 1))
-      .slice(0, 3),
+      .slice(0, 5),
   );
 
   readonly filteredSurveys = computed(() => {

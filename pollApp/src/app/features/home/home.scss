@@ -23,7 +23,7 @@
     }
   }
 
-  // Mobile-only illustration
+  // Mobile illustration
   &__illustration-mobile {
     display: none;
 
@@ -173,6 +173,10 @@
   &--3col {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
+
+    > :nth-child(n + 4) {
+      display: none;
+    }
   }
 
   &--2col {
@@ -185,7 +189,7 @@
     }
   }
 
-  // Mobile: horizontal scroll row
+  // Mobile
   &--3col {
     @media (max-width: bp.$mobile) {
       display: flex;
@@ -197,7 +201,9 @@
       scroll-padding: 0 var(--space-4);
       scrollbar-width: none;
 
-      > * {
+      > *,
+      > :nth-child(n + 4) {
+        display: block;
         flex: 0 0 250px;
         scroll-snap-align: start;
       }
