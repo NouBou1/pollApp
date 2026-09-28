@@ -70,8 +70,13 @@ export class CreateSurvey {
   }
 
   removeQuestion(index: number) {
-    if (this.questions.length <= 1) return;
-    this.questions.removeAt(index);
+    if (index > 0) {
+      this.questions.removeAt(index);
+      return;
+    }
+    const question = this.questions.at(0);
+    question.controls.text.reset();
+    question.controls.options.controls.forEach((option) => option.reset());
   }
 
   openPublishedSurvey() {

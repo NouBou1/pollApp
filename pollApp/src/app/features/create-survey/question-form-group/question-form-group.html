@@ -3,7 +3,10 @@
     <label class="question-group__label" [for]="'question-' + index()">
       {{ index() + 1 }}. Question
     </label>
-    <app-close-icon-button ariaLabel="Remove question" (clicked)="removeQuestion.emit()" />
+    <app-close-icon-button
+      [ariaLabel]="index() === 0 ? 'Clear question' : 'Remove question'"
+      (clicked)="removeQuestion.emit()"
+    />
   </div>
   <input
     class="question-group__text"
