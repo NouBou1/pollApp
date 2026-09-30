@@ -6,7 +6,7 @@
     "start": "npm run dev --prefix ..",
     "dev": "npm run dev --prefix ..",
     "serve": "ng serve -o",
-    "build": "ng build",
+    "build": "ng build --base-href ./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
