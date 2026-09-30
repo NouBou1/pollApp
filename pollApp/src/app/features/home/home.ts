@@ -60,7 +60,7 @@ export class Home {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Could not load surveys. Is the backend running?');
+        this.error.set('Could not load surveys. Please try again later.');
         this.loading.set(false);
       },
     });

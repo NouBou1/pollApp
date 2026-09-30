@@ -22,12 +22,12 @@
 
   &:hover input:not(:checked) + &__box {
     border: none;
-    background-image: url('/assets/checkbox-hover.svg');
+    background-image: url('../../../../styles/icons/checkbox-hover.svg');
   }
 
   input:checked + &__box {
     border: none;
-    background-image: url('/assets/checkbox-checked.svg');
+    background-image: url('../../../../styles/icons/checkbox-checked.svg');
   }
 
   input:focus-visible + &__box {

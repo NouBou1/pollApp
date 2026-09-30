@@ -94,7 +94,7 @@ export class CreateSurvey {
     this.error.set(null);
     this.surveyService.createSurvey(this.buildPayload()).subscribe({
       next: ({ id }) => this.publishedSurveyId.set(id),
-      error: () => this.failSubmit('Could not publish the survey. Is the backend running?'),
+      error: () => this.failSubmit('Could not publish the survey. Please try again.'),
     });
   }
 

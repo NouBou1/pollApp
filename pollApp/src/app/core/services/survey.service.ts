@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
   CreateSurveyPayload,
   SubmitResponsePayload,
@@ -8,34 +7,27 @@ import {
   SurveyListItem,
   SurveyResults,
 } from '../models/survey.model';
+import * as db from './survey-db';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyService {
-  private readonly baseUrl = '/api/surveys';
-
-  constructor(private readonly http: HttpClient) {}
-
   listSurveys(): Observable<SurveyListItem[]> {
-    return this.http.get<SurveyListItem[]>(this.baseUrl);
+    return from(db.listSurveys());
   }
 
   getSurvey(id: string): Observable<SurveyDetail> {
-    return this.http.get<SurveyDetail>(`${this.baseUrl}/${id}`);
+    return from(db.getSurvey(id));
   }
 
   createSurvey(payload: CreateSurveyPayload): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(this.baseUrl, payload);
-  }
-
-  deleteSurvey(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return from(db.createSurvey(payload));
   }
 
   getResults(id: string): Observable<SurveyResults> {
-    return this.http.get<SurveyResults>(`${this.baseUrl}/${id}/results`);
+    return from(db.getResults(id));
   }
 
   submitResponse(id: string, payload: SubmitResponsePayload): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/${id}/responses`, payload);
+    return from(db.submitResponse(id, payload));
   }
 }

@@ -2,6 +2,10 @@
 
 Umfragen erstellen, teilen und live Ergebnisse sehen.
 
+![Startseite](docs/screenshots/home.png)
+
+![Umfrage mit Live-Ergebnissen](docs/screenshots/survey-detail.png)
+
 ## Funktionen
 
 - **Startseite:** Umfragen, die bald enden, als Highlight-Karten, darunter alle Umfragen mit Filter nach Status (aktiv / beendet) und Kategorie
@@ -16,80 +20,57 @@ Umfragen erstellen, teilen und live Ergebnisse sehen.
 | Bereich | Technik |
 |---|---|
 | Frontend (`pollApp/`) | Angular 21 (Standalone Components, Signals), SCSS, Vitest |
-| Backend (`server/`) | Node.js, Express 4, TypeScript, Zod zur Validierung |
-| Datenbank | Supabase (Postgres) |
+| Datenbank | Supabase (Postgres), direkt aus dem Frontend über `@supabase/postgrest-js` |
+
+Die App braucht keinen eigenen Server. Der Build besteht nur aus statischen Dateien und läuft auf jedem Webspace, auch in einem Unterordner.
 
 ## Struktur
 
 ```
 pollApp/                  Angular-Frontend
-  src/app/core/           Models und API-Service
+  src/app/core/           Models und Datenbank-Zugriff (survey.service.ts, survey-db.ts)
   src/app/features/       Seiten: home, create-survey, survey-detail, imprint
   src/app/shared/         Wiederverwendbare Komponenten (Buttons, Karten, Dropdown, Icons …)
-  src/styles/             Design-Tokens, Schriften, Breakpoints, Form-Mixins
-  public/assets/          Logo, Illustrationen, Icons
-  public/fonts/           Schriftdateien (Mulish, Nokora, Nerko One), lokal eingebunden
-server/                   Express-Backend
-  src/routes/             Routen
-  src/controllers/        Request-Handling
-  src/services/           Supabase-Zugriffe
-  src/types/dto.ts        Zod-Schemas und API-Typen
+  src/environments/       Supabase-URL und Publishable Key
+  src/styles/             Design-Tokens, Schriften, Icons, Breakpoints, Form-Mixins
+  public/assets/          Logo, Illustrationen
+supabase/policies.sql     Row-Level-Security-Regeln
+server/                   Früheres Express-Backend, wird nicht mehr verwendet
 ```
 
 ## Setup
 
 1. Supabase-Projekt anlegen und die Tabellen aus [Datenbank](#datenbank) erstellen.
-2. `server/.env.example` nach `server/.env` kopieren und ausfüllen:
+2. Im SQL Editor von Supabase `supabase/policies.sql` ausführen.
+3. In `pollApp/src/environments/environment.ts` die Projekt-URL und den **Publishable key** (`sb_publishable_…`) eintragen. Zu finden unter *Project Settings → API Keys*.
 
-   | Variable | Bedeutung |
-   |---|---|
-   | `PORT` | Port des Backends (Standard `3000`) |
-   | `SUPABASE_URL` | URL des Supabase-Projekts |
-   | `SUPABASE_SERVICE_ROLE_KEY` | Service-Role-Key (nur im Backend verwenden, nie ins Frontend) |
-   | `CORS_ORIGIN` | Erlaubte Frontend-Adresse (Standard `http://localhost:4200`) |
+   > Niemals den **Secret key** (`sb_secret_…`) oder `service_role`-Key ins Frontend eintragen. Er umgeht alle Sicherheitsregeln und wäre für jeden Besucher lesbar.
 
-3. Abhängigkeiten installieren:
+4. Abhängigkeiten installieren und die App starten:
    ```bash
-   npm run install:all
+   cd pollApp
+   npm install
+   npm run serve
    ```
-4. Frontend und Backend gemeinsam starten:
-   ```bash
-   npm run dev
-   ```
-   - Frontend: http://localhost:4200
-   - Backend: http://localhost:3000
+   Die App öffnet sich unter http://localhost:4200.
 
-   Der Angular-Dev-Server leitet `/api` per `pollApp/proxy.conf.json` an das Backend weiter.
+## Skripte (`pollApp/`)
 
-## Skripte
+| Befehl | Wirkung |
+|---|---|
+| `npm run serve` | Dev-Server starten und Browser öffnen |
+| `npm run build` | Produktions-Build nach `dist/pollApp/browser/` (mit relativem `base href`) |
+| `npm test` | Unit-Tests mit Vitest |
 
-| Ort | Befehl | Wirkung |
-|---|---|---|
-| Root | `npm run dev` | Frontend und Backend parallel starten |
-| Root | `npm run install:all` | Abhängigkeiten beider Projekte installieren |
-| `pollApp/` | `npm run build` | Produktions-Build nach `pollApp/dist/` |
-| `pollApp/` | `npm test` | Unit-Tests mit Vitest |
-| `server/` | `npm run build` | TypeScript nach `server/dist/` kompilieren |
-| `server/` | `npm start` | Kompiliertes Backend starten |
+## Deployment
 
-## API
-
-Basis-URL: `/api/surveys`
-
-| Methode | Pfad | Beschreibung |
-|---|---|---|
-| `GET` | `/` | Alle Umfragen (neueste zuerst) |
-| `POST` | `/` | Umfrage anlegen |
-| `GET` | `/:id` | Umfrage mit Fragen und Antworten |
-| `DELETE` | `/:id` | Umfrage löschen |
-| `GET` | `/:id/results` | Ergebnisse (Stimmen und Prozent je Antwort) |
-| `POST` | `/:id/responses` | Teilnahme absenden |
-
-Request-Bodies werden mit Zod geprüft (siehe `server/src/types/dto.ts`). Ungültige Anfragen liefern `400`, unbekannte Umfragen `404`.
+1. `npm run build` in `pollApp/` ausführen.
+2. Den Inhalt von `pollApp/dist/pollApp/browser/` per FTP in den Zielordner hochladen, vorher alte Dateien dort löschen.
+3. Damit Unterseiten wie `…/home` auch beim Neuladen funktionieren, muss der Server unbekannte Pfade auf `index.html` umleiten (bei Apache per `.htaccess`).
 
 ## Datenbank
 
-Das Backend erwartet diese Tabellen in Supabase:
+Tabellen in Supabase:
 
 | Tabelle | Spalten |
 |---|---|
@@ -99,10 +80,4 @@ Das Backend erwartet diese Tabellen in Supabase:
 | `responses` | `id` (uuid), `survey_id` → `surveys` |
 | `response_answers` | `response_id` → `responses`, `question_id` → `questions`, `option_id` → `options` |
 
-Die Fremdschlüssel brauchen `on delete cascade`, damit beim Löschen einer Umfrage auch Fragen, Antworten und Teilnahmen entfernt werden.
-
-## Code-Konventionen
-
-- Funktionen höchstens 14 Zeilen, Dateien höchstens 400 Zeilen
-- Kommentare nur als kurze Wegweiser (z. B. `// Mobile`)
-- Farben, Abstände und Radien über die Tokens in `pollApp/src/styles/_tokens.scss`
+Die Regeln in `supabase/policies.sql` erlauben jedem Besucher, Umfragen zu lesen, anzulegen und abzustimmen. Ändern und Löschen ist nicht erlaubt.

@@ -306,7 +306,7 @@
     width: 15px;
     height: 15px;
     border: none;
-    background-image: url('/assets/checkbox-checked.svg');
+    background-image: url('../../../styles/icons/checkbox-checked.svg');
   }
 
   input:focus-visible + &__box {
