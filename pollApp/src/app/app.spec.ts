@@ -2,18 +2,18 @@ import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
+async function setupTestBed() {
+  await TestBed.configureTestingModule({
+    imports: [App],
+    providers: [provideRouter([])],
+  }).compileComponents();
+}
+
 describe('App', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-      providers: [provideRouter([])],
-    }).compileComponents();
-  });
+  beforeEach(setupTestBed);
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(TestBed.createComponent(App).componentInstance).toBeTruthy();
   });
 
   it('should render the header logo', async () => {

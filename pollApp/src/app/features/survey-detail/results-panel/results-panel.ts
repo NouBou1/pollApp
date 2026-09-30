@@ -1,10 +1,44 @@
 import { Component, computed, input } from '@angular/core';
-import { SurveyDetail, SurveyResults, optionLetter } from '../../../core/models/survey.model';
+import {
+  SurveyDetail,
+  SurveyOption,
+  SurveyQuestion,
+  SurveyResults,
+  optionLetter,
+} from '../../../core/models/survey.model';
+
+type QuestionResult = SurveyResults['questions'][number];
+
+interface OptionResultView {
+  optionId: string;
+  text: string;
+  votes: number;
+  percentage: number;
+}
 
 interface QuestionResultView {
   questionId: string;
   text: string;
-  options: { optionId: string; text: string; votes: number; percentage: number }[];
+  options: OptionResultView[];
+}
+
+function toOptionView(option: SurveyOption, result?: QuestionResult): OptionResultView {
+  const resultOption = result?.options.find((o) => o.optionId === option.id);
+  return {
+    optionId: option.id,
+    text: option.text,
+    votes: resultOption?.votes ?? 0,
+    percentage: resultOption?.percentage ?? 0,
+  };
+}
+
+function toQuestionView(question: SurveyQuestion, results: SurveyResults | null): QuestionResultView {
+  const result = results?.questions.find((q) => q.questionId === question.id);
+  return {
+    questionId: question.id,
+    text: question.text,
+    options: question.options.map((option) => toOptionView(option, result)),
+  };
 }
 
 @Component({
@@ -20,23 +54,7 @@ export class ResultsPanel {
 
   readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
 
-  readonly questionViews = computed<QuestionResultView[]>(() => {
-    const results = this.results();
-    return this.survey().questions.map((question) => {
-      const resultQuestion = results?.questions.find((q) => q.questionId === question.id);
-      return {
-        questionId: question.id,
-        text: question.text,
-        options: question.options.map((option) => {
-          const resultOption = resultQuestion?.options.find((o) => o.optionId === option.id);
-          return {
-            optionId: option.id,
-            text: option.text,
-            votes: resultOption?.votes ?? 0,
-            percentage: resultOption?.percentage ?? 0,
-          };
-        }),
-      };
-    });
-  });
+  readonly questionViews = computed(() =>
+    this.survey().questions.map((question) => toQuestionView(question, this.results())),
+  );
 }

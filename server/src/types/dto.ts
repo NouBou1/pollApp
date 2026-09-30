@@ -10,7 +10,7 @@ export const createSurveySchema = z.object({
       z.object({
         text: z.string().min(1).max(300),
         allowMultiple: z.boolean().optional(),
-        options: z.array(z.object({ text: z.string().min(1).max(200) })).min(2),
+        options: z.array(z.object({ text: z.string().min(1).max(200) })).min(2).max(6),
       }),
     )
     .min(1),

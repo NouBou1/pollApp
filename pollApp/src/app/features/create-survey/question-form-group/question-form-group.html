@@ -38,8 +38,18 @@
     }
   </div>
 
-  <button type="button" class="question-group__add-answer" (click)="addOption()">
-    Add answer
-    <app-icon name="add-circle" [width]="16" />
-  </button>
+  <div class="question-group__footer">
+    <button
+      type="button"
+      class="question-group__add-answer"
+      [disabled]="!canAddOption()"
+      (click)="addOption()"
+    >
+      Add answer
+      <app-icon name="add-circle" [width]="16" />
+    </button>
+    @if (options.length > 2) {
+      <span class="question-group__limit-hint">You can add up to {{ maxOptions }} answer fields.</span>
+    }
+  </div>
 </div>

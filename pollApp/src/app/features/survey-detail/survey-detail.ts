@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SurveyService } from '../../core/services/survey.service';
 import {
+  SubmitResponsePayload,
   SurveyDetail as SurveyDetailModel,
   SurveyResults,
   optionLetter,
@@ -90,22 +91,25 @@ export class SurveyDetail {
   submit() {
     const survey = this.survey();
     if (!survey || !this.canSubmit()) return;
-
-    const answers = Object.entries(this.selectedAnswers()).flatMap(([questionId, optionIds]) =>
-      optionIds.map((optionId) => ({ questionId, optionId })),
-    );
-
     this.submitting.set(true);
-    this.surveyService.submitResponse(survey.id, { answers }).subscribe({
-      next: () => {
-        this.submitting.set(false);
-        this.submitted.set(true);
-        this.loadResults(survey.id);
-      },
+    this.surveyService.submitResponse(survey.id, { answers: this.collectAnswers() }).subscribe({
+      next: () => this.onSubmitted(survey.id),
       error: () => {
         this.submitting.set(false);
         this.error.set('Could not submit your response.');
       },
     });
+  }
+
+  private collectAnswers(): SubmitResponsePayload['answers'] {
+    return Object.entries(this.selectedAnswers()).flatMap(([questionId, optionIds]) =>
+      optionIds.map((optionId) => ({ questionId, optionId })),
+    );
+  }
+
+  private onSubmitted(surveyId: string) {
+    this.submitting.set(false);
+    this.submitted.set(true);
+    this.loadResults(surveyId);
   }
 }

@@ -11,6 +11,8 @@ export type QuestionForm = FormGroup<{
   options: FormArray<OptionForm>;
 }>;
 
+const MAX_OPTIONS = 6;
+
 const QUESTION_PLACEHOLDERS = [
   'Which date would work best for you?',
   'Choose the activities you prefer?',
@@ -41,6 +43,8 @@ export class QuestionFormGroup {
     return this.question().controls.allowMultiple;
   }
 
+  readonly maxOptions = MAX_OPTIONS;
+
   readonly placeholder = computed(
     () => QUESTION_PLACEHOLDERS[this.index() % QUESTION_PLACEHOLDERS.length],
   );
@@ -49,8 +53,12 @@ export class QuestionFormGroup {
     return String.fromCharCode(65 + index);
   }
 
+  canAddOption(): boolean {
+    return this.options.length < MAX_OPTIONS;
+  }
+
   addOption() {
-    this.options.push(buildOption());
+    if (this.canAddOption()) this.options.push(buildOption());
   }
 
   removeOption(index: number) {

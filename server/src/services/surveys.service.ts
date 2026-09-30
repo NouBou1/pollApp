@@ -4,8 +4,33 @@ import type {
   SubmitResponsePayload,
   SurveyDetail,
   SurveyListItem,
+  SurveyOption,
+  SurveyQuestion,
   SurveyResults,
 } from '../types/dto.js';
+
+type QuestionPayload = CreateSurveyPayload['questions'][number];
+type AnswerPayload = SubmitResponsePayload['answers'][number];
+type OptionResult = SurveyResults['questions'][number]['options'][number];
+
+interface SurveyListRow {
+  id: string;
+  title: string;
+  category: string;
+  created_at: string;
+  ends_at: string | null;
+  questions: { count: number }[];
+}
+
+interface QuestionRow {
+  id: string;
+  text: string;
+  position: number;
+  allow_multiple: boolean;
+  options: SurveyOption[] | null;
+}
+
+// List
 
 export async function listSurveys(): Promise<SurveyListItem[]> {
   const { data, error } = await supabase
@@ -13,33 +38,26 @@ export async function listSurveys(): Promise<SurveyListItem[]> {
     .select('id, title, category, created_at, ends_at, questions(count)')
     .order('created_at', { ascending: false });
   if (error) throw error;
+  return (data ?? []).map((row) => toListItem(row as SurveyListRow));
+}
 
-  return (data ?? []).map((row) => ({
+function toListItem(row: SurveyListRow): SurveyListItem {
+  return {
     id: row.id,
     title: row.title,
     category: row.category,
     createdAt: row.created_at,
     endsAt: row.ends_at,
-    questionCount: (row.questions as unknown as { count: number }[])[0]?.count ?? 0,
-  }));
+    questionCount: row.questions[0]?.count ?? 0,
+  };
 }
 
+// Detail
+
 export async function getSurvey(surveyId: string): Promise<SurveyDetail | null> {
-  const { data: survey, error: surveyError } = await supabase
-    .from('surveys')
-    .select('id, title, description, category, created_at, ends_at')
-    .eq('id', surveyId)
-    .maybeSingle();
-  if (surveyError) throw surveyError;
+  const survey = await fetchSurveyRow(surveyId);
   if (!survey) return null;
-
-  const { data: questions, error: questionsError } = await supabase
-    .from('questions')
-    .select('id, text, position, allow_multiple, options(id, text, position)')
-    .eq('survey_id', surveyId)
-    .order('position', { ascending: true });
-  if (questionsError) throw questionsError;
-
+  const questions = await fetchQuestions(surveyId);
   return {
     id: survey.id,
     title: survey.title,
@@ -47,21 +65,57 @@ export async function getSurvey(surveyId: string): Promise<SurveyDetail | null> 
     category: survey.category,
     createdAt: survey.created_at,
     endsAt: survey.ends_at,
-    questions: (questions ?? []).map((q) => ({
-      id: q.id,
-      text: q.text,
-      position: q.position,
-      allowMultiple: q.allow_multiple,
-      options: (q.options ?? [])
-        .slice()
-        .sort((a, b) => a.position - b.position)
-        .map((o) => ({ id: o.id, text: o.text, position: o.position })),
-    })),
+    questions,
   };
 }
 
+async function fetchSurveyRow(surveyId: string) {
+  const { data, error } = await supabase
+    .from('surveys')
+    .select('id, title, description, category, created_at, ends_at')
+    .eq('id', surveyId)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+async function fetchQuestions(surveyId: string): Promise<SurveyQuestion[]> {
+  const { data, error } = await supabase
+    .from('questions')
+    .select('id, text, position, allow_multiple, options(id, text, position)')
+    .eq('survey_id', surveyId)
+    .order('position', { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((row) => toQuestion(row as QuestionRow));
+}
+
+function toQuestion(row: QuestionRow): SurveyQuestion {
+  return {
+    id: row.id,
+    text: row.text,
+    position: row.position,
+    allowMultiple: row.allow_multiple,
+    options: [...(row.options ?? [])].sort((a, b) => a.position - b.position),
+  };
+}
+
+// Create
+
 export async function createSurvey(payload: CreateSurveyPayload): Promise<{ id: string }> {
-  const { data: survey, error: surveyError } = await supabase
+  const surveyId = await insertSurvey(payload);
+  try {
+    for (const [position, question] of payload.questions.entries()) {
+      await insertQuestion(surveyId, question, position);
+    }
+  } catch (err) {
+    await supabase.from('surveys').delete().eq('id', surveyId);
+    throw err;
+  }
+  return { id: surveyId };
+}
+
+async function insertSurvey(payload: CreateSurveyPayload): Promise<string> {
+  const { data, error } = await supabase
     .from('surveys')
     .insert({
       title: payload.title,
@@ -71,38 +125,33 @@ export async function createSurvey(payload: CreateSurveyPayload): Promise<{ id: 
     })
     .select('id')
     .single();
-  if (surveyError) throw surveyError;
+  if (error) throw error;
+  return data.id as string;
+}
 
-  const surveyId = survey.id as string;
+async function insertQuestion(surveyId: string, question: QuestionPayload, position: number) {
+  const { data, error } = await supabase
+    .from('questions')
+    .insert({
+      survey_id: surveyId,
+      text: question.text,
+      position,
+      allow_multiple: question.allowMultiple ?? false,
+    })
+    .select('id')
+    .single();
+  if (error) throw error;
+  await insertOptions(data.id as string, question.options);
+}
 
-  try {
-    for (const [qIndex, question] of payload.questions.entries()) {
-      const { data: insertedQuestion, error: questionError } = await supabase
-        .from('questions')
-        .insert({
-          survey_id: surveyId,
-          text: question.text,
-          position: qIndex,
-          allow_multiple: question.allowMultiple ?? false,
-        })
-        .select('id')
-        .single();
-      if (questionError) throw questionError;
-
-      const optionsRows = question.options.map((option, oIndex) => ({
-        question_id: insertedQuestion.id as string,
-        text: option.text,
-        position: oIndex,
-      }));
-      const { error: optionsError } = await supabase.from('options').insert(optionsRows);
-      if (optionsError) throw optionsError;
-    }
-  } catch (err) {
-    await supabase.from('surveys').delete().eq('id', surveyId);
-    throw err;
-  }
-
-  return { id: surveyId };
+async function insertOptions(questionId: string, options: QuestionPayload['options']) {
+  const rows = options.map((option, position) => ({
+    question_id: questionId,
+    text: option.text,
+    position,
+  }));
+  const { error } = await supabase.from('options').insert(rows);
+  if (error) throw error;
 }
 
 export async function deleteSurvey(surveyId: string): Promise<void> {
@@ -110,65 +159,83 @@ export async function deleteSurvey(surveyId: string): Promise<void> {
   if (error) throw error;
 }
 
+// Responses
+
 export async function submitResponse(
   surveyId: string,
   payload: SubmitResponsePayload,
 ): Promise<void> {
-  const { data: response, error: responseError } = await supabase
+  const responseId = await insertResponse(surveyId);
+  try {
+    await insertAnswers(responseId, payload.answers);
+  } catch (err) {
+    await supabase.from('responses').delete().eq('id', responseId);
+    throw err;
+  }
+}
+
+async function insertResponse(surveyId: string): Promise<string> {
+  const { data, error } = await supabase
     .from('responses')
     .insert({ survey_id: surveyId })
     .select('id')
     .single();
-  if (responseError) throw responseError;
+  if (error) throw error;
+  return data.id as string;
+}
 
-  const answerRows = payload.answers.map((answer) => ({
-    response_id: response.id as string,
+async function insertAnswers(responseId: string, answers: AnswerPayload[]) {
+  const rows = answers.map((answer) => ({
+    response_id: responseId,
     question_id: answer.questionId,
     option_id: answer.optionId,
   }));
-  const { error: answersError } = await supabase.from('response_answers').insert(answerRows);
-  if (answersError) {
-    await supabase.from('responses').delete().eq('id', response.id);
-    throw answersError;
-  }
+  const { error } = await supabase.from('response_answers').insert(rows);
+  if (error) throw error;
 }
+
+// Results
 
 export async function getResults(surveyId: string): Promise<SurveyResults | null> {
   const survey = await getSurvey(surveyId);
   if (!survey) return null;
-
-  const { count: responseCount, error: countError } = await supabase
-    .from('responses')
-    .select('id', { count: 'exact', head: true })
-    .eq('survey_id', surveyId);
-  if (countError) throw countError;
-
-  const { data: answers, error: answersError } = await supabase
-    .from('response_answers')
-    .select('question_id, option_id, responses!inner(survey_id)')
-    .eq('responses.survey_id', surveyId);
-  if (answersError) throw answersError;
-
-  const votesByOption = new Map<string, number>();
-  for (const answer of answers ?? []) {
-    const optionId = answer.option_id as string;
-    votesByOption.set(optionId, (votesByOption.get(optionId) ?? 0) + 1);
-  }
-
-  const total = responseCount ?? 0;
+  const total = await countResponses(surveyId);
+  const votes = await countVotesByOption(surveyId);
   return {
     surveyId,
     responseCount: total,
     questions: survey.questions.map((question) => ({
       questionId: question.id,
-      options: question.options.map((option) => {
-        const votes = votesByOption.get(option.id) ?? 0;
-        return {
-          optionId: option.id,
-          votes,
-          percentage: total > 0 ? Math.round((votes / total) * 1000) / 10 : 0,
-        };
-      }),
+      options: question.options.map((option) => toOptionResult(option.id, votes, total)),
     })),
   };
+}
+
+async function countResponses(surveyId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('responses')
+    .select('id', { count: 'exact', head: true })
+    .eq('survey_id', surveyId);
+  if (error) throw error;
+  return count ?? 0;
+}
+
+async function countVotesByOption(surveyId: string): Promise<Map<string, number>> {
+  const { data, error } = await supabase
+    .from('response_answers')
+    .select('option_id, responses!inner(survey_id)')
+    .eq('responses.survey_id', surveyId);
+  if (error) throw error;
+  const votes = new Map<string, number>();
+  for (const answer of data ?? []) {
+    const optionId = answer.option_id as string;
+    votes.set(optionId, (votes.get(optionId) ?? 0) + 1);
+  }
+  return votes;
+}
+
+function toOptionResult(optionId: string, votes: Map<string, number>, total: number): OptionResult {
+  const count = votes.get(optionId) ?? 0;
+  const percentage = total > 0 ? Math.round((count / total) * 1000) / 10 : 0;
+  return { optionId, votes: count, percentage };
 }

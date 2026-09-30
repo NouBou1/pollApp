@@ -7,12 +7,17 @@
       alt=""
       aria-hidden="true"
     />
-    <p>Create and share surveys in minutes - from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
+    <p>Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
     <app-button-primary class="hero__cta" routerLink="/create-survey" mobileIcon="plus">
       New survey
     </app-button-primary>
   </div>
-  <img class="hero__illustration" src="/assets/hero-illustration.png" alt="" aria-hidden="true" />
+  <div class="hero-visual" aria-hidden="true">
+    <img class="hero-visual__check" src="/assets/hero-check.svg" alt="" />
+    <img class="hero-visual__base" src="/assets/hero-base.png" alt="" />
+    <img class="hero-visual__base hero-visual__base--hover" src="/assets/hero-base-hover.png" alt="" />
+    <img class="hero-visual__bubble" src="/assets/hero-bubble.svg" alt="" />
+  </div>
 </section>
 
 @if (error()) {

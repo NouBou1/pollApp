@@ -90,11 +90,19 @@ export class CreateSurvey {
       this.error.set('Please fill in the survey name, a category and all questions and answers.');
       return;
     }
+    this.submitting.set(true);
+    this.error.set(null);
+    this.surveyService.createSurvey(this.buildPayload()).subscribe({
+      next: ({ id }) => this.publishedSurveyId.set(id),
+      error: () => this.failSubmit('Could not publish the survey. Is the backend running?'),
+    });
+  }
 
+  private buildPayload(): CreateSurveyPayload {
     const value = this.form.getRawValue();
-    const payload: CreateSurveyPayload = {
+    return {
       title: value.title,
-      description: value.description.trim() ? value.description.trim() : null,
+      description: value.description.trim() || null,
       category: value.category,
       endsAt: value.endDate ? endOfDayIso(value.endDate) : null,
       questions: value.questions.map((question) => ({
@@ -103,15 +111,10 @@ export class CreateSurvey {
         options: question.options.map((option) => ({ text: option.text })),
       })),
     };
+  }
 
-    this.submitting.set(true);
-    this.error.set(null);
-    this.surveyService.createSurvey(payload).subscribe({
-      next: ({ id }) => this.publishedSurveyId.set(id),
-      error: () => {
-        this.error.set('Could not publish the survey. Is the backend running?');
-        this.submitting.set(false);
-      },
-    });
+  private failSubmit(message: string) {
+    this.error.set(message);
+    this.submitting.set(false);
   }
 }
