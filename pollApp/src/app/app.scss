@@ -40,6 +40,33 @@
   }
 }
 
+// Footer
+.app-footer {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-4) var(--space-6);
+
+  &__link {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 17.6px;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent);
+      text-decoration: underline;
+    }
+  }
+}
+
+:host(.app--light) .app-footer__link {
+  color: var(--color-card-text-muted);
+
+  &:hover {
+    color: var(--color-title-orange);
+  }
+}
+
 // Mobile header
 @media (max-width: bp.$mobile) {
   :host(:not(.app--light)) {

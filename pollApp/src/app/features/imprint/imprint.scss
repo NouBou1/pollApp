@@ -1,0 +1,43 @@
+@use '../../../styles/breakpoints' as bp;
+
+.imprint {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 702px;
+  padding: 40px;
+  border-radius: 0 160px 0 0;
+  background: var(--color-survey-panel-bg);
+  color: var(--color-text-dark);
+
+  @media (max-width: bp.$mobile) {
+    padding: 40px 16px;
+    border-top-right-radius: 100px;
+  }
+
+  &__title {
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 50px;
+    color: var(--color-title-orange);
+
+    @media (max-width: bp.$mobile) {
+      font-size: 48px;
+      line-height: 42px;
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  &__heading {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22.6px;
+  }
+}

@@ -1,0 +1,27 @@
+<section class="imprint">
+  <h1 class="imprint__title">Impressum</h1>
+
+  <div class="imprint__block">
+    <h2 class="imprint__heading">Angaben gemäß § 5 DDG</h2>
+    <p>
+      {{ imprint.name }}<br />
+      {{ imprint.street }}<br />
+      {{ imprint.city }}
+    </p>
+  </div>
+
+  <div class="imprint__block">
+    <h2 class="imprint__heading">Kontakt</h2>
+    <p>
+      E-Mail: <a [href]="'mailto:' + imprint.email">{{ imprint.email }}</a>
+    </p>
+  </div>
+
+  <div class="imprint__block">
+    <h2 class="imprint__heading">Hinweis</h2>
+    <p>
+      PollApp ist ein Übungsprojekt ohne kommerzielle Absicht. Die angezeigten Umfragen dienen
+      nur zu Demonstrationszwecken.
+    </p>
+  </div>
+</section>

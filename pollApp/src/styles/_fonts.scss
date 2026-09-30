@@ -1,0 +1,20 @@
+// Fonts
+$fonts: (
+  'Mulish': ('mulish', (400, 500, 600, 700, 800)),
+  'Nokora': ('nokora', (400, 700)),
+  'Nerko One': ('nerko-one', (400)),
+);
+
+@each $family, $font in $fonts {
+  $file: nth($font, 1);
+
+  @each $weight in nth($font, 2) {
+    @font-face {
+      font-family: $family;
+      font-style: normal;
+      font-weight: $weight;
+      font-display: swap;
+      src: url('/fonts/#{$file}-latin-#{$weight}-normal.woff2') format('woff2');
+    }
+  }
+}
