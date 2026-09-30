@@ -1,5 +1,11 @@
 <div class="sort-by">
-  <button type="button" class="sort-by__trigger" [class.is-open]="open()" (click)="toggle()">
+  <button
+    type="button"
+    class="sort-by__trigger"
+    [class.is-open]="open()"
+    [class.has-chosen]="showChosen() && !!chosenLabel()"
+    (click)="toggle()"
+  >
     <span>{{ label() }}</span>
     <app-icon class="sort-by__arrow" name="arrow-drop-down" />
   </button>

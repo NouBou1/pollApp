@@ -25,9 +25,17 @@
     }
   }
 
+  // Figma: arrow turns #ffb770 on hover, while open and once a category is chosen
   &__arrow {
     width: 24px;
     height: 24px;
+    transition: color 0.15s ease;
+  }
+
+  &__trigger:hover &__arrow,
+  &__trigger.is-open &__arrow,
+  &__trigger.has-chosen &__arrow {
+    color: var(--color-accent);
   }
 
   &__menu {
