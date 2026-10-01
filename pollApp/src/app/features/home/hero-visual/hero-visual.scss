@@ -1,0 +1,64 @@
+@use '../../../../styles/breakpoints' as bp;
+
+:host {
+  display: contents;
+}
+
+.hero-visual {
+  position: relative;
+  flex-shrink: 0;
+  width: 426px;
+  height: 420px;
+
+  @media (max-width: bp.$mobile) {
+    display: none;
+  }
+
+  img {
+    position: absolute;
+    transform-origin: top left;
+    transition:
+      transform 0.4s ease,
+      opacity 0.4s ease;
+  }
+
+  &__base {
+    inset: 0;
+    width: 420px;
+    height: 420px;
+
+    &--hover {
+      opacity: 0;
+    }
+  }
+
+  &__check {
+    top: 258px;
+    left: 277px;
+    width: 80px;
+  }
+
+  &__bubble {
+    top: 97px;
+    left: 76px;
+    width: 105px;
+  }
+
+  &:hover {
+    .hero-visual__base {
+      opacity: 0;
+    }
+
+    .hero-visual__base--hover {
+      opacity: 1;
+    }
+
+    .hero-visual__check {
+      transform: translate(49px, -3px) scale(1.175);
+    }
+
+    .hero-visual__bubble {
+      transform: translate(-62px, -38px) scale(1.6);
+    }
+  }
+}

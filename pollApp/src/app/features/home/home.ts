@@ -5,6 +5,7 @@ import { SortBySelect, SortOption } from '../../shared/components/sort-by-select
 import { SurveyCard } from '../../shared/components/survey-card/survey-card';
 import { SurveyService } from '../../core/services/survey.service';
 import { SURVEY_CATEGORIES, SurveyListItem } from '../../core/models/survey.model';
+import { HeroVisual } from './hero-visual/hero-visual';
 
 const CATEGORY_OPTIONS: SortOption[] = [
   { value: 'all', label: 'All Surveys' },
@@ -13,7 +14,7 @@ const CATEGORY_OPTIONS: SortOption[] = [
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ButtonPrimary, SortBySelect, SurveyCard],
+  imports: [RouterLink, ButtonPrimary, SortBySelect, SurveyCard, HeroVisual],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
