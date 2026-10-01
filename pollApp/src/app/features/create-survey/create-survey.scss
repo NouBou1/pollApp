@@ -11,7 +11,6 @@
   @media (max-width: bp.$mobile) {
     margin: 0 calc(-1 * var(--space-4));
     padding: 40px var(--space-4);
-    border-radius: 5px 100px 5px 5px;
   }
 
   &__header {
@@ -236,13 +235,11 @@
     }
 
     &__label,
-    &__clear,
-    &--top &__clear {
+    &__clear {
       align-self: start;
     }
 
-    &__clear,
-    &--top &__clear {
+    &__clear {
       grid-row: 1;
       margin-right: 16px;
     }
@@ -265,7 +262,6 @@
   @media (max-width: bp.$mobile) {
     flex-direction: column-reverse;
     align-items: stretch;
-    gap: 8px;
 
     &__category {
       --sort-by-pad-left: 0;
@@ -273,8 +269,4 @@
       padding-top: 5px;
     }
   }
-}
-
-.soft-button {
-  @include fc.soft-button;
 }

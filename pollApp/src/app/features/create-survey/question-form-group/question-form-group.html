@@ -1,7 +1,7 @@
 <div class="question-group" [formGroup]="question()">
   <div class="question-group__header">
     <label class="question-group__label" [for]="'question-' + index()">
-      {{ index() + 1 }}. Question
+      {{ index() + 1 }}. Question <span aria-hidden="true">*</span>
     </label>
     <app-close-icon-button
       [ariaLabel]="index() === 0 ? 'Clear question' : 'Remove question'"
@@ -17,7 +17,7 @@
   />
 
   <div class="question-group__answers-header">
-    <span class="question-group__label">Answers</span>
+    <span class="question-group__label">Answers <span aria-hidden="true">*</span></span>
     <app-checkbox [checked]="allowMultiple.value" (checkedChange)="allowMultiple.setValue($event)">
       <span class="question-group__allow-multiple">Allow multiple answers.</span>
     </app-checkbox>

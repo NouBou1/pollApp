@@ -14,7 +14,7 @@
     <div class="create-survey__body">
       <div class="create-survey__column">
         <div class="field">
-          <label class="field__label" for="survey-title">Survey name</label>
+          <label class="field__label" for="survey-title">Survey name <span aria-hidden="true">*</span></label>
           <input id="survey-title" class="field__input" type="text" formControlName="title" />
           <app-close-icon-button class="field__clear" ariaLabel="Clear survey name" (clicked)="clear('title')" />
         </div>
@@ -36,7 +36,7 @@
 
           <app-sort-by-select
             class="field-row__category"
-            [label]="form.controls.category.value || 'Choose category'"
+            [label]="form.controls.category.value || 'Choose category *'"
             [options]="categoryOptions"
             [value]="form.controls.category.value"
             (valueChange)="form.controls.category.setValue($event)"

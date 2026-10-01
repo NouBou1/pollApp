@@ -1,5 +1,6 @@
 @use 'styles/fonts';
 @use 'styles/tokens';
+@use 'styles/form-controls' as fc;
 
 * {
   box-sizing: border-box;
@@ -38,4 +39,8 @@ button {
 
 a {
   color: inherit;
+}
+
+.soft-button {
+  @include fc.soft-button;
 }
