@@ -25,6 +25,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body:has(.app--light) {
+  background: var(--color-page-light-bg);
+}
+
 h1,
 h2,
 h3,
