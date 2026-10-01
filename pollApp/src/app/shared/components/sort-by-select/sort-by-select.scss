@@ -33,7 +33,13 @@
   &__arrow {
     width: 24px;
     height: 24px;
-    transition: color 0.15s ease;
+    transition:
+      color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  &__trigger.is-open &__arrow {
+    transform: rotate(180deg);
   }
 
   &__trigger:hover &__arrow,
