@@ -4,7 +4,7 @@
       {{ index() + 1 }}. Question <span aria-hidden="true">*</span>
     </label>
     <app-close-icon-button
-      [ariaLabel]="index() === 0 ? 'Clear question' : 'Remove question'"
+      [ariaLabel]="removable() ? 'Remove question' : 'Clear question'"
       (clicked)="removeQuestion.emit()"
     />
   </div>

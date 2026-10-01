@@ -93,7 +93,7 @@ export class CreateSurvey {
   }
 
   removeQuestion(index: number) {
-    if (index > 0) {
+    if (this.questions.length > 1) {
       this.questions.removeAt(index);
       return;
     }

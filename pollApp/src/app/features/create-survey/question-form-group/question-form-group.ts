@@ -33,6 +33,7 @@ export function buildOption(): OptionForm {
 export class QuestionFormGroup {
   question = input.required<QuestionForm>();
   index = input.required<number>();
+  removable = input(false);
   removeQuestion = output<void>();
 
   get options(): FormArray<OptionForm> {

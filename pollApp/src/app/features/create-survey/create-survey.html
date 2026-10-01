@@ -69,6 +69,7 @@
         <app-question-form-group
           [question]="question"
           [index]="$index"
+          [removable]="questions.length > 1"
           (removeQuestion)="removeQuestion($index)"
         />
       }
