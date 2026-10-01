@@ -6,7 +6,7 @@
   <div class="survey-detail">
     <section class="survey-panel">
       <div class="survey-panel__status">
-        <span class="status-badge">Published</span>
+        <span class="status-badge">{{ isEnded() ? 'Ended' : 'Published' }}</span>
         <a class="close-button" routerLink="/home" aria-label="Close survey">
           <app-icon name="close" [width]="13" />
         </a>
