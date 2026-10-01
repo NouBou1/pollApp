@@ -17,6 +17,8 @@
   <router-outlet />
 </main>
 
-<footer class="app-footer">
-  <a class="app-footer__link" routerLink="/impressum">Impressum</a>
-</footer>
+@if (showImprintLink()) {
+  <footer class="app-footer">
+    <a class="app-footer__link" routerLink="/impressum">Impressum</a>
+  </footer>
+}

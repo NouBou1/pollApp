@@ -28,4 +28,5 @@ export class App {
 
   readonly isLight = computed(() => this.routeData()['theme'] === 'light');
   readonly showHeader = computed(() => this.routeData()['header'] !== false);
+  readonly showImprintLink = computed(() => this.routeData()['imprintLink'] !== false);
 }

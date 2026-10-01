@@ -13,6 +13,6 @@ export const routes: Routes = [
     component: CreateSurvey,
   },
   { path: 'survey/:id', data: { theme: 'light' }, component: SurveyDetail },
-  { path: 'impressum', data: { theme: 'light' }, component: Imprint },
+  { path: 'impressum', data: { theme: 'light', imprintLink: false }, component: Imprint },
   { path: '**', redirectTo: 'home' },
 ];
