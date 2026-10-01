@@ -1,0 +1,15 @@
+<header class="create-survey-header">
+  <img class="create-survey-header__status" src="assets/status-draft.svg" alt="Draft" />
+  <div class="create-survey-header__title-row">
+    <h1 class="create-survey-header__title">Create new survey</h1>
+    <button
+      type="button"
+      class="soft-button create-survey-header__cancel"
+      aria-label="Cancel"
+      (click)="cancelled.emit()"
+    >
+      <span class="create-survey-header__cancel-label">Cancel</span>
+      <app-icon name="close" [width]="13" />
+    </button>
+  </div>
+</header>

@@ -1,14 +1,5 @@
 <section class="create-survey">
-  <header class="create-survey__header">
-    <img class="create-survey__status" src="assets/status-draft.svg" alt="Draft" />
-    <div class="create-survey__title-row">
-      <h1 class="create-survey__title">Create new survey</h1>
-      <button type="button" class="soft-button create-survey__cancel" aria-label="Cancel" (click)="dialog.close()">
-        <span class="create-survey__cancel-label">Cancel</span>
-        <app-icon name="close" [width]="13" />
-      </button>
-    </div>
-  </header>
+  <app-create-survey-header (cancelled)="dialog.close()" />
 
   <form class="create-survey__form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="create-survey__body">

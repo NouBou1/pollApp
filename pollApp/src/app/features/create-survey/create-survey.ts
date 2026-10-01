@@ -11,6 +11,7 @@ import { CreateSurveyPayload, SURVEY_CATEGORIES } from '../../core/models/survey
 import { buildOption, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
 import { Icon } from '../../shared/components/icon/icon';
 import { dateOnlyFromToday, notBeforeTomorrow, notBlank } from './form-validators';
+import { CreateSurveyHeader } from './create-survey-header/create-survey-header';
 
 function buildQuestion(): QuestionForm {
   return new FormGroup({
@@ -31,6 +32,7 @@ function endOfDayIso(dateOnly: string): string {
   selector: 'app-create-survey',
   imports: [
     ReactiveFormsModule,
+    CreateSurveyHeader,
     ButtonPrimary,
     CloseIconButton,
     Icon,

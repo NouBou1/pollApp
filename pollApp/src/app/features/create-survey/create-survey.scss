@@ -13,69 +13,6 @@
     padding: 40px var(--space-4);
   }
 
-  &__header {
-    // Mobile
-    @media (max-width: bp.$mobile) {
-      display: grid;
-      grid-template-columns: minmax(0, 285px) auto;
-      justify-content: space-between;
-      row-gap: 16px;
-      padding: 0 9px;
-    }
-  }
-
-  &__status {
-    display: block;
-    width: 59px;
-    height: 26px;
-  }
-
-  &__title-row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--space-4);
-
-    @media (max-width: bp.$mobile) {
-      display: contents;
-    }
-  }
-
-  &__title {
-    height: 61px;
-    font-size: 56px;
-    font-weight: 400;
-    line-height: 67.8px;
-    color: var(--color-title-orange);
-
-    @media (max-width: bp.$mobile) {
-      grid-column: 1;
-      grid-row: 2;
-      height: auto;
-      padding-bottom: 10px;
-      line-height: 42px;
-    }
-  }
-
-  // Mobile
-  &__cancel.soft-button {
-    @media (max-width: bp.$mobile) {
-      grid-column: 2;
-      grid-row: 1 / span 2;
-      align-self: start;
-      justify-content: center;
-      width: 39px;
-      height: 32px;
-      padding: 0;
-    }
-  }
-
-  &__cancel-label {
-    @media (max-width: bp.$mobile) {
-      display: none;
-    }
-  }
-
   &__body {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
