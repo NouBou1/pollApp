@@ -84,9 +84,7 @@
 
     <div class="create-survey__footer">
       <app-button-primary type="submit" [disabled]="submitting()" mobileIcon="check">Publish</app-button-primary>
-      @if (validationMessage() ?? error(); as message) {
-        <p class="create-survey__error">{{ message }}</p>
-      }
+      <p class="create-survey__error" aria-live="polite">{{ validationMessage() ?? error() }}</p>
     </div>
   </form>
 </section>

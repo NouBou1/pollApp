@@ -151,8 +151,16 @@
   }
 
   &__error {
+    min-height: 18px;
     color: var(--color-danger);
     font-size: 0.9rem;
+    line-height: 18px;
+    text-align: right;
+
+    @media (max-width: bp.$mobile) {
+      min-height: 36px;
+      text-align: center;
+    }
   }
 }
 
