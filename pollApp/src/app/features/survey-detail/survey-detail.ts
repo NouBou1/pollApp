@@ -1,5 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { EMPTY, catchError, switchMap, timer } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { SurveyService } from '../../core/services/survey.service';
 import {
@@ -12,6 +14,8 @@ import { SurveyQuestion } from './survey-question/survey-question';
 import { CompleteButton } from './complete-button/complete-button';
 import { Icon } from '../../shared/components/icon/icon';
 
+const RESULTS_POLL_MS = 5000;
+
 @Component({
   selector: 'app-survey-detail',
   imports: [DatePipe, RouterLink, Icon, ResultsPanel, SurveyQuestion, CompleteButton],
@@ -21,6 +25,7 @@ import { Icon } from '../../shared/components/icon/icon';
 export class SurveyDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly surveyService = inject(SurveyService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
@@ -33,9 +38,14 @@ export class SurveyDetail {
 
   readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
 
+  readonly isEnded = computed(() => {
+    const endsAt = this.survey()?.endsAt;
+    return !!endsAt && new Date(endsAt).getTime() <= Date.now();
+  });
+
   readonly canSubmit = computed(() => {
     const survey = this.survey();
-    if (!survey) return false;
+    if (!survey || this.isEnded()) return false;
     const answers = this.selectedAnswers();
     return survey.questions.every((question) => (answers[question.id]?.length ?? 0) > 0);
   });
@@ -44,7 +54,7 @@ export class SurveyDetail {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadSurvey(id);
-      this.loadResults(id);
+      this.pollResults(id);
     } else {
       this.error.set('Survey not found.');
       this.loading.set(false);
@@ -62,6 +72,15 @@ export class SurveyDetail {
         this.loading.set(false);
       },
     });
+  }
+
+  private pollResults(id: string) {
+    timer(0, RESULTS_POLL_MS)
+      .pipe(
+        switchMap(() => this.surveyService.getResults(id).pipe(catchError(() => EMPTY))),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((results) => this.results.set(results));
   }
 
   private loadResults(id: string) {

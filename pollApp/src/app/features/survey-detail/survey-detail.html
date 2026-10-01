@@ -32,7 +32,7 @@
               [question]="question"
               [index]="qIndex"
               [selectedIds]="selectedIds(question.id)"
-              [disabled]="submitted()"
+              [disabled]="submitted() || isEnded()"
               (optionSelected)="selectOption(question.id, $event, question.allowMultiple)"
             />
           }
@@ -42,7 +42,9 @@
           @if (error()) {
             <p class="state-message state-message--error">{{ error() }}</p>
           }
-          @if (!submitted()) {
+          @if (isEnded()) {
+            <p class="survey-panel__thanks">This survey has ended.</p>
+          } @else if (!submitted()) {
             <app-complete-button [disabled]="!canSubmit() || submitting()" (clicked)="submit()" />
           } @else {
             <p class="survey-panel__thanks">Thanks for completing the survey!</p>
