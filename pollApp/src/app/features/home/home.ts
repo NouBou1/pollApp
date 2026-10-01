@@ -4,7 +4,7 @@ import { ButtonPrimary } from '../../shared/components/button-primary/button-pri
 import { SortBySelect, SortOption } from '../../shared/components/sort-by-select/sort-by-select';
 import { SurveyCard } from '../../shared/components/survey-card/survey-card';
 import { SurveyService } from '../../core/services/survey.service';
-import { SURVEY_CATEGORIES, SurveyListItem } from '../../core/models/survey.model';
+import { SURVEY_CATEGORIES, SurveyListItem, hasEnded } from '../../core/models/survey.model';
 import { HeroVisual } from './hero-visual/hero-visual';
 
 const CATEGORY_OPTIONS: SortOption[] = [
@@ -28,13 +28,9 @@ export class Home {
   readonly categoryFilter = signal('all');
   readonly statusFilter = signal<'active' | 'past'>('active');
 
-  private isPast(survey: SurveyListItem): boolean {
-    return !!survey.endsAt && new Date(survey.endsAt).getTime() <= Date.now();
-  }
-
   readonly endingSoonSurveys = computed(() =>
     this.surveys()
-      .filter((survey) => survey.endsAt && !this.isPast(survey))
+      .filter((survey) => survey.endsAt && !hasEnded(survey.endsAt))
       .sort((a, b) => (a.endsAt! < b.endsAt! ? -1 : 1))
       .slice(0, 5),
   );
@@ -44,7 +40,7 @@ export class Home {
     const status = this.statusFilter();
     return this.surveys()
       .filter((survey) => category === 'all' || survey.category === category)
-      .filter((survey) => (status === 'past' ? this.isPast(survey) : !this.isPast(survey)))
+      .filter((survey) => hasEnded(survey.endsAt) === (status === 'past'))
       .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   });
 

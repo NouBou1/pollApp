@@ -8,6 +8,7 @@ import {
   SubmitResponsePayload,
   SurveyDetail as SurveyDetailModel,
   SurveyResults,
+  hasEnded,
 } from '../../core/models/survey.model';
 import { ResultsPanel } from './results-panel/results-panel';
 import { SurveyQuestion } from './survey-question/survey-question';
@@ -44,10 +45,7 @@ export class SurveyDetail {
       Object.values(this.previewAnswers()).some((ids) => ids.length > 0),
   );
 
-  readonly isEnded = computed(() => {
-    const endsAt = this.survey()?.endsAt;
-    return !!endsAt && new Date(endsAt).getTime() <= Date.now();
-  });
+  readonly isEnded = computed(() => hasEnded(this.survey()?.endsAt ?? null));
 
   readonly canSubmit = computed(() => {
     const survey = this.survey();

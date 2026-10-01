@@ -69,6 +69,10 @@ export function optionLetter(index: number): string {
   return String.fromCharCode(65 + index);
 }
 
+export function hasEnded(endsAt: string | null): boolean {
+  return !!endsAt && new Date(endsAt).getTime() <= Date.now();
+}
+
 export function toPercentage(votes: number, total: number): number {
   return total > 0 ? Math.round((votes / total) * 1000) / 10 : 0;
 }
