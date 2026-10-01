@@ -70,9 +70,9 @@
 
 .result-row {
   display: grid;
-  grid-template-columns: 15px minmax(0, 1fr) 33px;
+  grid-template-columns: 15px minmax(0, 1fr) 46px;
   align-items: start;
-  column-gap: 6px;
+  column-gap: 8px;
   height: 18px;
 
   &__letter {
