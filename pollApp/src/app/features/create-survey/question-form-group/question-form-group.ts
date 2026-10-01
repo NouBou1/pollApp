@@ -1,8 +1,9 @@
 import { Component, computed, input, output } from '@angular/core';
-import { FormGroup, FormArray, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CloseIconButton } from '../../../shared/components/close-icon-button/close-icon-button';
 import { Checkbox } from '../../../shared/components/checkbox/checkbox';
 import { Icon } from '../../../shared/components/icon/icon';
+import { notBlank } from '../form-validators';
 
 export type OptionForm = FormGroup<{ text: FormControl<string> }>;
 export type QuestionForm = FormGroup<{
@@ -20,7 +21,7 @@ const QUESTION_PLACEHOLDERS = [
 
 export function buildOption(): OptionForm {
   return new FormGroup({
-    text: new FormControl('', { nonNullable: true, validators: Validators.required }),
+    text: new FormControl('', { nonNullable: true, validators: notBlank }),
   });
 }
 

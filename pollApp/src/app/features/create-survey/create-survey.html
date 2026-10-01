@@ -22,14 +22,14 @@
         <div class="field-row">
           <div class="field field--date">
             <label class="field__label" for="survey-end-date">
-              Set end date <span class="field__optional">(optional)</span>
+              Set end date <span aria-hidden="true">*</span>
             </label>
             <input
               id="survey-end-date"
               class="field__input field__input--date"
               [class.is-empty]="!form.controls.endDate.value"
               type="date"
-              [min]="today"
+              [min]="minEndDate"
               formControlName="endDate"
             />
             <app-close-icon-button class="field__clear" ariaLabel="Clear end date" (clicked)="clear('endDate')" />
