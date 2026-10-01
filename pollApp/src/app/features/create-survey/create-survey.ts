@@ -1,5 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
 import { CloseIconButton } from '../../shared/components/close-icon-button/close-icon-button';
@@ -18,8 +26,21 @@ function buildQuestion(): QuestionForm {
   });
 }
 
+const REQUIRED_MESSAGE = 'Please fill in the survey name, a category and all questions and answers.';
+const PAST_DATE_MESSAGE = 'The end date cannot be in the past.';
+
 function endOfDayIso(dateOnly: string): string {
   return new Date(`${dateOnly}T23:59:59`).toISOString();
+}
+
+function todayDateOnly(): string {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  return now.toISOString().slice(0, 10);
+}
+
+function notInPast(control: AbstractControl<string>): ValidationErrors | null {
+  return control.value && control.value < todayDateOnly() ? { pastDate: true } : null;
 }
 
 @Component({
@@ -45,7 +66,9 @@ export class CreateSurvey {
     value: category,
     label: category,
   }));
+  readonly today = todayDateOnly();
   readonly submitting = signal(false);
+  readonly submitAttempted = signal(false);
   readonly error = signal<string | null>(null);
   readonly publishedSurveyId = signal<string | null>(null);
 
@@ -53,7 +76,7 @@ export class CreateSurvey {
     title: new FormControl('', { nonNullable: true, validators: Validators.required }),
     description: new FormControl('', { nonNullable: true }),
     category: new FormControl('', { nonNullable: true, validators: Validators.required }),
-    endDate: new FormControl('', { nonNullable: true }),
+    endDate: new FormControl('', { nonNullable: true, validators: notInPast }),
     questions: new FormArray([buildQuestion()]),
   });
 
@@ -84,10 +107,15 @@ export class CreateSurvey {
     if (id) this.router.navigate(['/survey', id]);
   }
 
+  validationMessage(): string | null {
+    if (!this.submitAttempted() || this.form.valid) return null;
+    return this.form.controls.endDate.invalid ? PAST_DATE_MESSAGE : REQUIRED_MESSAGE;
+  }
+
   submit() {
+    this.submitAttempted.set(true);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.error.set('Please fill in the survey name, a category and all questions and answers.');
       return;
     }
     this.submitting.set(true);

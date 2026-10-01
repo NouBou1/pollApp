@@ -29,6 +29,7 @@
               class="field__input field__input--date"
               [class.is-empty]="!form.controls.endDate.value"
               type="date"
+              [min]="today"
               formControlName="endDate"
             />
             <app-close-icon-button class="field__clear" ariaLabel="Clear end date" (clicked)="clear('endDate')" />
@@ -81,10 +82,10 @@
     </div>
 
     <div class="create-survey__footer">
-      @if (error()) {
-        <p class="create-survey__error">{{ error() }}</p>
-      }
       <app-button-primary type="submit" [disabled]="submitting()" mobileIcon="check">Publish</app-button-primary>
+      @if (validationMessage() ?? error(); as message) {
+        <p class="create-survey__error">{{ message }}</p>
+      }
     </div>
   </form>
 </section>
