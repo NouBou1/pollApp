@@ -28,36 +28,13 @@
 
         <div class="survey-panel__questions">
           @for (question of survey.questions; track question.id; let qIndex = $index) {
-            <div class="question">
-              <div class="question__header">
-                <p class="question__text">
-                  <span class="question__number">{{ qIndex + 1 }}.</span>
-                  <span>{{ question.text }}</span>
-                </p>
-                @if (question.allowMultiple) {
-                  <p class="question__hint">More than one answers are possible.</p>
-                }
-              </div>
-
-              <div class="question__answers">
-                @for (option of question.options; track option.id; let oIndex = $index) {
-                  <label class="answer">
-                    <input
-                      [type]="question.allowMultiple ? 'checkbox' : 'radio'"
-                      [name]="question.id"
-                      [checked]="isSelected(question.id, option.id)"
-                      [disabled]="submitted()"
-                      (change)="selectOption(question.id, option.id, question.allowMultiple)"
-                    />
-                    <span class="answer__box"></span>
-                    <span class="answer__label">
-                      <span class="answer__letter">{{ letter(oIndex) }}.</span>
-                      <span>{{ option.text }}</span>
-                    </span>
-                  </label>
-                }
-              </div>
-            </div>
+            <app-survey-question
+              [question]="question"
+              [index]="qIndex"
+              [selectedIds]="selectedIds(question.id)"
+              [disabled]="submitted()"
+              (optionSelected)="selectOption(question.id, $event, question.allowMultiple)"
+            />
           }
         </div>
 
@@ -66,16 +43,7 @@
             <p class="state-message state-message--error">{{ error() }}</p>
           }
           @if (!submitted()) {
-            <button
-              type="button"
-              class="complete-button"
-              [disabled]="!canSubmit() || submitting()"
-              (click)="submit()"
-            >
-              <span class="complete-button__label">Complete survey</span>
-              <span class="complete-button__label complete-button__label--mobile">Complete</span>
-              <app-icon class="complete-button__check" name="check" />
-            </button>
+            <app-complete-button [disabled]="!canSubmit() || submitting()" (clicked)="submit()" />
           } @else {
             <p class="survey-panel__thanks">Thanks for completing the survey!</p>
           }

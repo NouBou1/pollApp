@@ -1,0 +1,55 @@
+@use '../../../../styles/breakpoints' as bp;
+
+// Secondary button
+.complete-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 183, 112, 0.3);
+  color: var(--color-text-dark);
+  font-family: 'Nokora', var(--font-family-base);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 21.1px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 183, 112, 0.6);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &__label--mobile,
+  &__check {
+    display: none;
+  }
+
+  // Mobile
+  @media (max-width: bp.$mobile) {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--color-accent);
+    color: var(--color-text-darkest);
+    font-size: 18px;
+    line-height: 23.8px;
+
+    &:hover:not(:disabled) {
+      background: var(--color-accent);
+    }
+
+    &__label {
+      display: none;
+    }
+
+    &__label--mobile,
+    &__check {
+      display: inline;
+    }
+  }
+}

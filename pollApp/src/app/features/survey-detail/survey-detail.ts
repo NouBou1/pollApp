@@ -6,14 +6,15 @@ import {
   SubmitResponsePayload,
   SurveyDetail as SurveyDetailModel,
   SurveyResults,
-  optionLetter,
 } from '../../core/models/survey.model';
 import { ResultsPanel } from './results-panel/results-panel';
+import { SurveyQuestion } from './survey-question/survey-question';
+import { CompleteButton } from './complete-button/complete-button';
 import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-survey-detail',
-  imports: [DatePipe, RouterLink, Icon, ResultsPanel],
+  imports: [DatePipe, RouterLink, Icon, ResultsPanel, SurveyQuestion, CompleteButton],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
@@ -28,7 +29,6 @@ export class SurveyDetail {
   readonly selectedAnswers = signal<Record<string, string[]>>({});
   readonly submitting = signal(false);
   readonly submitted = signal(false);
-  readonly letter = optionLetter;
   readonly resultsOpen = signal(true);
 
   readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
@@ -71,8 +71,8 @@ export class SurveyDetail {
     });
   }
 
-  isSelected(questionId: string, optionId: string): boolean {
-    return this.selectedAnswers()[questionId]?.includes(optionId) ?? false;
+  selectedIds(questionId: string): string[] {
+    return this.selectedAnswers()[questionId] ?? [];
   }
 
   selectOption(questionId: string, optionId: string, allowMultiple: boolean) {

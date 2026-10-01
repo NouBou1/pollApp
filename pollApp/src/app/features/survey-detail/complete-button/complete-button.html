@@ -1,0 +1,5 @@
+<button type="button" class="complete-button" [disabled]="disabled()" (click)="clicked.emit($event)">
+  <span class="complete-button__label">Complete survey</span>
+  <span class="complete-button__label complete-button__label--mobile">Complete</span>
+  <app-icon class="complete-button__check" name="check" />
+</button>

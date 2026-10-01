@@ -1,0 +1,30 @@
+<div class="question">
+  <div class="question__header">
+    <p class="question__text">
+      <span class="question__number">{{ index() + 1 }}.</span>
+      <span>{{ question().text }}</span>
+    </p>
+    @if (question().allowMultiple) {
+      <p class="question__hint">More than one answers are possible.</p>
+    }
+  </div>
+
+  <div class="question__answers">
+    @for (option of question().options; track option.id; let oIndex = $index) {
+      <label class="answer">
+        <input
+          [type]="question().allowMultiple ? 'checkbox' : 'radio'"
+          [name]="question().id"
+          [checked]="selectedIds().includes(option.id)"
+          [disabled]="disabled()"
+          (change)="optionSelected.emit(option.id)"
+        />
+        <span class="answer__box"></span>
+        <span class="answer__label">
+          <span class="answer__letter">{{ letter(oIndex) }}.</span>
+          <span>{{ option.text }}</span>
+        </span>
+      </label>
+    }
+  </div>
+</div>
