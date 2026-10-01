@@ -1,12 +1,8 @@
 {
   "name": "pollapp-workspace",
   "private": true,
-  "devDependencies": {
-    "concurrently": "^9.1.0"
-  },
   "scripts": {
-    "start": "npm run dev",
-    "dev": "concurrently -n frontend,backend -c blue,green \"npm run serve --prefix pollApp\" \"npm run dev --prefix server\"",
-    "install:all": "npm install --prefix pollApp && npm install --prefix server"
+    "start": "npm start --prefix pollApp",
+    "install:all": "npm install --prefix pollApp"
   }
 }

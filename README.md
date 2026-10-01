@@ -35,7 +35,6 @@ pollApp/                  Angular-Frontend
   src/styles/             Design-Tokens, Schriften, Icons, Breakpoints, Form-Mixins
   public/assets/          Logo, Illustrationen
 supabase/policies.sql     Row-Level-Security-Regeln
-server/                   Früheres Express-Backend, wird nicht mehr verwendet
 ```
 
 ## Setup
