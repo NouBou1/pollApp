@@ -68,3 +68,7 @@ export interface SubmitResponsePayload {
 export function optionLetter(index: number): string {
   return String.fromCharCode(65 + index);
 }
+
+export function toPercentage(votes: number, total: number): number {
+  return total > 0 ? Math.round((votes / total) * 1000) / 10 : 0;
+}

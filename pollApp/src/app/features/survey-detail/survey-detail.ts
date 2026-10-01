@@ -36,7 +36,13 @@ export class SurveyDetail {
   readonly submitted = signal(false);
   readonly resultsOpen = signal(true);
 
-  readonly hasResponses = computed(() => (this.results()?.responseCount ?? 0) > 0);
+  readonly previewAnswers = computed(() => (this.submitted() ? {} : this.selectedAnswers()));
+
+  readonly hasResponses = computed(
+    () =>
+      (this.results()?.responseCount ?? 0) > 0 ||
+      Object.values(this.previewAnswers()).some((ids) => ids.length > 0),
+  );
 
   readonly isEnded = computed(() => {
     const endsAt = this.survey()?.endsAt;
@@ -83,13 +89,6 @@ export class SurveyDetail {
       .subscribe((results) => this.results.set(results));
   }
 
-  private loadResults(id: string) {
-    this.surveyService.getResults(id).subscribe({
-      next: (results) => this.results.set(results),
-      error: () => {},
-    });
-  }
-
   selectedIds(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
   }
@@ -127,8 +126,15 @@ export class SurveyDetail {
   }
 
   private onSubmitted(surveyId: string) {
+    this.surveyService.getResults(surveyId).subscribe({
+      next: (results) => this.finishSubmit(results),
+      error: () => this.finishSubmit(this.results()),
+    });
+  }
+
+  private finishSubmit(results: SurveyResults | null) {
+    this.results.set(results);
     this.submitting.set(false);
     this.submitted.set(true);
-    this.loadResults(surveyId);
   }
 }

@@ -8,6 +8,7 @@ import {
   SurveyOption,
   SurveyQuestion,
   SurveyResults,
+  toPercentage,
 } from '../models/survey.model';
 
 type QuestionPayload = CreateSurveyPayload['questions'][number];
@@ -221,6 +222,5 @@ async function countVotesByOption(surveyId: string): Promise<Map<string, number>
 
 function toOptionResult(optionId: string, votes: Map<string, number>, total: number): OptionResult {
   const count = votes.get(optionId) ?? 0;
-  const percentage = total > 0 ? Math.round((count / total) * 1000) / 10 : 0;
-  return { optionId, votes: count, percentage };
+  return { optionId, votes: count, percentage: toPercentage(count, total) };
 }
