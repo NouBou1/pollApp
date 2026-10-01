@@ -265,7 +265,7 @@
 
     &__category {
       --sort-by-pad-left: 0;
-      height: 55px;
+      min-height: 55px;
       padding-top: 5px;
     }
   }
