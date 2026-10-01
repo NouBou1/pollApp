@@ -27,5 +27,5 @@ export class App {
   );
 
   readonly isLight = computed(() => this.routeData()['theme'] === 'light');
-  readonly showHeaderCta = computed(() => this.isLight() && this.routeData()['headerCta'] !== false);
+  readonly showHeader = computed(() => this.routeData()['header'] !== false);
 }

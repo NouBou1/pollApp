@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'home', component: Home },
   {
     path: 'create-survey',
-    data: { theme: 'light', headerCta: false },
+    data: { theme: 'light', header: false },
     component: CreateSurvey,
   },
   { path: 'survey/:id', data: { theme: 'light' }, component: SurveyDetail },
