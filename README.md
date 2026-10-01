@@ -22,7 +22,7 @@ Umfragen erstellen, teilen und live Ergebnisse sehen.
 | Frontend (`pollApp/`) | Angular 21 (Standalone Components, Signals), SCSS, Vitest |
 | Datenbank | Supabase (Postgres), direkt aus dem Frontend über `@supabase/postgrest-js` |
 
-Die App braucht keinen eigenen Server. Der Build besteht nur aus statischen Dateien und läuft auf jedem Webspace, auch in einem Unterordner.
+Die App braucht keinen eigenen Server. Der Build besteht nur aus statischen Dateien und läuft auf jedem Webspace. Der Zielordner ist im Build-Skript als `base href` hinterlegt (`/angular-projects/pollapp/`) und muss bei einem anderen Ordner angepasst werden.
 
 ## Struktur
 
@@ -58,7 +58,7 @@ supabase/policies.sql     Row-Level-Security-Regeln
 | Befehl | Wirkung |
 |---|---|
 | `npm run serve` | Dev-Server starten und Browser öffnen |
-| `npm run build` | Produktions-Build nach `dist/pollApp/browser/` (mit relativem `base href`) |
+| `npm run build` | Produktions-Build nach `dist/pollApp/browser/` (mit `base href` `/angular-projects/pollapp/`) |
 | `npm test` | Unit-Tests mit Vitest |
 
 ## Deployment
