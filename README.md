@@ -9,10 +9,10 @@ Umfragen erstellen, teilen und live Ergebnisse sehen.
 ## Funktionen
 
 - **Startseite:** Umfragen, die bald enden, als Highlight-Karten, darunter alle Umfragen mit Filter nach Status (aktiv / beendet) und Kategorie
-- **Umfrage erstellen:** Titel, Beschreibung, Kategorie, optionales Enddatum, beliebig viele Fragen mit 2–6 Antworten, Einfach- oder Mehrfachauswahl
-- **Umfrage beantworten:** Antworten auswählen und absenden, beendete Umfragen sind gesperrt
+- **Umfrage erstellen:** als Dialog über der aktuellen Seite. Titel, Beschreibung, Kategorie, Enddatum (frühestens morgen), beliebig viele Fragen mit 2–6 Antworten, Einfach- oder Mehrfachauswahl
+- **Umfrage beantworten:** Antworten auswählen und absenden, beendete Umfragen sind gesperrt, jede Umfrage lässt sich pro Browser nur einmal beantworten
 - **Live-Ergebnisse:** Prozentwerte je Antwort, alle 5 Sekunden aktualisiert, inklusive Vorschau der eigenen Auswahl vor dem Absenden, auf Mobilgeräten ein- und ausklappbar
-- **Impressum:** unter `/impressum`, verlinkt im Footer jeder Seite
+- **Impressum:** unter `/impressum`, verlinkt im Footer
 - **Responsives Layout:** Desktop- und Mobile-Design nach Figma (Mobile-Layout unter 1100 px Breite)
 
 ## Tech-Stack
