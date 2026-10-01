@@ -32,7 +32,7 @@
               [question]="question"
               [index]="qIndex"
               [selectedIds]="selectedIds(question.id)"
-              [disabled]="submitted() || isEnded()"
+              [disabled]="submitted() || isEnded() || alreadyAnswered()"
               (optionSelected)="selectOption(question.id, $event, question.allowMultiple)"
             />
           }
@@ -44,6 +44,8 @@
           }
           @if (isEnded()) {
             <p class="survey-panel__thanks">This survey has ended.</p>
+          } @else if (alreadyAnswered()) {
+            <p class="survey-panel__thanks">You have already completed this survey.</p>
           } @else if (!submitted()) {
             <app-complete-button [disabled]="!canSubmit() || submitting()" (clicked)="submit()" />
           } @else {

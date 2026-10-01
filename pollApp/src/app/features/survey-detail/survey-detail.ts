@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EMPTY, catchError, switchMap, timer } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { SurveyService } from '../../core/services/survey.service';
+import { AnsweredSurveys } from '../../core/services/answered-surveys';
 import {
   SubmitResponsePayload,
   SurveyDetail as SurveyDetailModel,
@@ -27,6 +28,7 @@ export class SurveyDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly surveyService = inject(SurveyService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly answeredSurveys = inject(AnsweredSurveys);
 
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
@@ -35,6 +37,7 @@ export class SurveyDetail {
   readonly selectedAnswers = signal<Record<string, string[]>>({});
   readonly submitting = signal(false);
   readonly submitted = signal(false);
+  readonly alreadyAnswered = signal(false);
   readonly resultsOpen = signal(true);
 
   readonly previewAnswers = computed(() => (this.submitted() ? {} : this.selectedAnswers()));
@@ -49,7 +52,7 @@ export class SurveyDetail {
 
   readonly canSubmit = computed(() => {
     const survey = this.survey();
-    if (!survey || this.isEnded()) return false;
+    if (!survey || this.isEnded() || this.alreadyAnswered()) return false;
     const answers = this.selectedAnswers();
     return survey.questions.every((question) => (answers[question.id]?.length ?? 0) > 0);
   });
@@ -57,6 +60,7 @@ export class SurveyDetail {
   constructor() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.alreadyAnswered.set(this.answeredSurveys.has(id));
       this.loadSurvey(id);
       this.pollResults(id);
     } else {
@@ -124,6 +128,7 @@ export class SurveyDetail {
   }
 
   private onSubmitted(surveyId: string) {
+    this.answeredSurveys.add(surveyId);
     this.surveyService.getResults(surveyId).subscribe({
       next: (results) => this.finishSubmit(results),
       error: () => this.finishSubmit(this.results()),
