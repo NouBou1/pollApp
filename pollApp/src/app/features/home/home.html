@@ -8,7 +8,7 @@
       aria-hidden="true"
     />
     <p>Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
-    <app-button-primary class="hero__cta" routerLink="/create-survey" mobileIcon="plus">
+    <app-button-primary class="hero__cta" mobileIcon="plus" (clicked)="createDialog.open()">
       New survey
     </app-button-primary>
   </div>

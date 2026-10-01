@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
 import { CloseIconButton } from '../../shared/components/close-icon-button/close-icon-button';
 import { SortBySelect, SortOption } from '../../shared/components/sort-by-select/sort-by-select';
 import { Toast } from '../../shared/components/toast/toast';
 import { SurveyService } from '../../core/services/survey.service';
+import { CreateSurveyDialog } from '../../core/services/create-survey-dialog';
 import { CreateSurveyPayload, SURVEY_CATEGORIES } from '../../core/models/survey.model';
 import { buildOption, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
 import { Icon } from '../../shared/components/icon/icon';
@@ -30,7 +31,6 @@ function endOfDayIso(dateOnly: string): string {
   selector: 'app-create-survey',
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     ButtonPrimary,
     CloseIconButton,
     Icon,
@@ -44,6 +44,7 @@ function endOfDayIso(dateOnly: string): string {
 export class CreateSurvey {
   private readonly surveyService = inject(SurveyService);
   private readonly router = inject(Router);
+  readonly dialog = inject(CreateSurveyDialog);
 
   readonly categoryOptions: SortOption[] = SURVEY_CATEGORIES.map((category) => ({
     value: category,
@@ -90,6 +91,7 @@ export class CreateSurvey {
 
   openPublishedSurvey() {
     const id = this.publishedSurveyId();
+    this.dialog.close();
     if (id) this.router.navigate(['/survey', id]);
   }
 

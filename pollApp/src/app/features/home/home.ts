@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ButtonPrimary } from '../../shared/components/button-primary/button-primary';
 import { SortBySelect, SortOption } from '../../shared/components/sort-by-select/sort-by-select';
 import { SurveyCard } from '../../shared/components/survey-card/survey-card';
 import { SurveyService } from '../../core/services/survey.service';
+import { CreateSurveyDialog } from '../../core/services/create-survey-dialog';
 import { SURVEY_CATEGORIES, SurveyListItem, hasEnded } from '../../core/models/survey.model';
 import { HeroVisual } from './hero-visual/hero-visual';
 
@@ -14,12 +14,13 @@ const CATEGORY_OPTIONS: SortOption[] = [
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ButtonPrimary, SortBySelect, SurveyCard, HeroVisual],
+  imports: [ButtonPrimary, SortBySelect, SurveyCard, HeroVisual],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
   private readonly surveyService = inject(SurveyService);
+  readonly createDialog = inject(CreateSurveyDialog);
 
   readonly categoryOptions = CATEGORY_OPTIONS;
   readonly loading = signal(true);

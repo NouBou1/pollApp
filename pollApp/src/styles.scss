@@ -29,6 +29,10 @@ body:has(.app--light) {
   background: var(--color-page-light-bg);
 }
 
+body:has(app-dialog) {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,

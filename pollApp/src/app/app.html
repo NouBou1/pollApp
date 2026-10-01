@@ -1,17 +1,15 @@
-@if (showHeader()) {
-  <header class="app-header">
-    <a class="app-header__logo" routerLink="/home">
-      <img
-        class="app-header__logo-icon"
-        [src]="isLight() ? 'assets/logo-dark.svg' : 'assets/logo.svg'"
-        alt="PollApp"
-      />
-    </a>
-    @if (isLight()) {
-      <app-button-primary class="app-header__cta" routerLink="/create-survey">Create survey</app-button-primary>
-    }
-  </header>
-}
+<header class="app-header">
+  <a class="app-header__logo" routerLink="/home">
+    <img
+      class="app-header__logo-icon"
+      [src]="isLight() ? 'assets/logo-dark.svg' : 'assets/logo.svg'"
+      alt="PollApp"
+    />
+  </a>
+  @if (isLight()) {
+    <app-button-primary class="app-header__cta" (clicked)="createDialog.open()">Create survey</app-button-primary>
+  }
+</header>
 
 <main class="app-main">
   <router-outlet />
@@ -21,4 +19,10 @@
   <footer class="app-footer">
     <a class="app-footer__link" routerLink="/impressum">Impressum</a>
   </footer>
+}
+
+@if (createDialog.isOpen()) {
+  <app-dialog ariaLabel="Create new survey" (closed)="createDialog.close()">
+    <app-create-survey />
+  </app-dialog>
 }

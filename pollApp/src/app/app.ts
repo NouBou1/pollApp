@@ -3,16 +3,20 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Data, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { ButtonPrimary } from './shared/components/button-primary/button-primary';
+import { Dialog } from './shared/components/dialog/dialog';
+import { CreateSurvey } from './features/create-survey/create-survey';
+import { CreateSurveyDialog } from './core/services/create-survey-dialog';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, ButtonPrimary],
+  imports: [RouterOutlet, RouterLink, ButtonPrimary, Dialog, CreateSurvey],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   host: { '[class.app--light]': 'isLight()' },
 })
 export class App {
   private readonly router = inject(Router);
+  readonly createDialog = inject(CreateSurveyDialog);
 
   private readonly routeData = toSignal(
     this.router.events.pipe(
@@ -27,6 +31,5 @@ export class App {
   );
 
   readonly isLight = computed(() => this.routeData()['theme'] === 'light');
-  readonly showHeader = computed(() => this.routeData()['header'] !== false);
   readonly showImprintLink = computed(() => this.routeData()['imprintLink'] !== false);
 }
