@@ -4,6 +4,7 @@
     class="sort-by__trigger"
     [class.is-open]="open()"
     [class.has-chosen]="showChosen() && !!chosenLabel()"
+    [class.is-invalid]="invalid()"
     (click)="toggle()"
   >
     <span>{{ label() }}</span>

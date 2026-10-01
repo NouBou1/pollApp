@@ -19,6 +19,7 @@ export class SortBySelect {
   value = input<string>('');
   label = input('Sort by');
   showChosen = input(false);
+  invalid = input(false);
   valueChange = output<string>();
 
   readonly open = signal(false);

@@ -23,6 +23,10 @@
     &.is-open {
       background: rgba(217, 217, 217, 0.12);
     }
+
+    &.is-invalid {
+      outline: 2px solid var(--color-danger);
+    }
   }
 
   // Arrow

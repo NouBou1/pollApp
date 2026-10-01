@@ -39,6 +39,7 @@
             [label]="form.controls.category.value || 'Choose category *'"
             [options]="categoryOptions"
             [value]="form.controls.category.value"
+            [invalid]="form.controls.category.invalid && form.controls.category.touched"
             (valueChange)="form.controls.category.setValue($event)"
           />
         </div>
