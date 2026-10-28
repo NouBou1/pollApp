@@ -62,8 +62,12 @@
         [attr.aria-expanded]="resultsOpen()"
         (click)="resultsOpen.set(!resultsOpen())"
       >
-        {{ resultsOpen() ? "Close results" : "See results" }}
-        <app-icon class="results-toggle__arrow" [class.is-open]="resultsOpen()" name="arrow-drop-down" />
+        {{ resultsOpen() ? 'Close results' : 'See results' }}
+        <app-icon
+          class="results-toggle__arrow"
+          [class.is-open]="resultsOpen()"
+          name="arrow-drop-down"
+        />
       </button>
       <app-results-panel
         class="survey-detail__results-panel"

@@ -7,7 +7,9 @@
     />
   </a>
   @if (isLight()) {
-    <app-button-primary class="app-header__cta" (clicked)="createDialog.open()">Create survey</app-button-primary>
+    <app-button-primary class="app-header__cta" (clicked)="createDialog.open()"
+      >Create survey</app-button-primary
+    >
   }
 </header>
 

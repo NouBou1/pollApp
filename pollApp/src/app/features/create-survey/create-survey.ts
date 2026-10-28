@@ -8,7 +8,11 @@ import { Toast } from '../../shared/components/toast/toast';
 import { SurveyService } from '../../core/services/survey.service';
 import { CreateSurveyDialog } from '../../core/services/create-survey-dialog';
 import { CreateSurveyPayload, SURVEY_CATEGORIES } from '../../core/models/survey.model';
-import { buildOption, QuestionForm, QuestionFormGroup } from './question-form-group/question-form-group';
+import {
+  buildOption,
+  QuestionForm,
+  QuestionFormGroup,
+} from './question-form-group/question-form-group';
 import { Icon } from '../../shared/components/icon/icon';
 import { dateOnlyFromToday, notBeforeTomorrow, notBlank } from './form-validators';
 import { CreateSurveyHeader } from './create-survey-header/create-survey-header';
@@ -21,7 +25,8 @@ function buildQuestion(): QuestionForm {
   });
 }
 
-const REQUIRED_MESSAGE = 'Please fill in the survey name, a category and all questions and answers.';
+const REQUIRED_MESSAGE =
+  'Please fill in the survey name, a category and all questions and answers.';
 const END_DATE_MESSAGE = 'Please choose an end date from tomorrow on.';
 
 function endOfDayIso(dateOnly: string): string {

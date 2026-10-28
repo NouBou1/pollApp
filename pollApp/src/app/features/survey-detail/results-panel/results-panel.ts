@@ -62,7 +62,9 @@ export class ResultsPanel {
 
   readonly hasPreview = computed(() => Object.values(this.preview()).some((ids) => ids.length > 0));
 
-  readonly total = computed(() => (this.results()?.responseCount ?? 0) + (this.hasPreview() ? 1 : 0));
+  readonly total = computed(
+    () => (this.results()?.responseCount ?? 0) + (this.hasPreview() ? 1 : 0),
+  );
 
   readonly hasResponses = computed(() => this.total() > 0);
 

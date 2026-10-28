@@ -1,4 +1,13 @@
-import { Component, ElementRef, HostListener, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { Icon } from '../icon/icon';
 
 export interface SortOption {

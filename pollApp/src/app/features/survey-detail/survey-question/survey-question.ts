@@ -1,5 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { SurveyQuestion as SurveyQuestionModel, optionLetter } from '../../../core/models/survey.model';
+import {
+  SurveyQuestion as SurveyQuestionModel,
+  optionLetter,
+} from '../../../core/models/survey.model';
 
 @Component({
   selector: 'app-survey-question',
