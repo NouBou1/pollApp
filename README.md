@@ -60,6 +60,7 @@ supabase/policies.sql     Row-Level-Security-Regeln
 | `npm run serve` | Dev-Server starten und Browser öffnen |
 | `npm run build` | Produktions-Build nach `dist/pollApp/browser/` (mit `base href` `/angular-projects/pollapp/`) |
 | `npm test` | Unit-Tests mit Vitest |
+| `npm run format:check` | Formatierung mit Prettier prüfen |
 
 ## Deployment
 
